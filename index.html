@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Между строк</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #050611;
+    color: #eeeeF8;
+    font-family: 'Manrope', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* =========================
+   ЗВЁЗДНОЕ НЕБО
+========================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(107, 92, 180, .18), transparent 28%),
+        radial-gradient(circle at 80% 70%, rgba(70, 75, 150, .13), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(105, 62, 150, .10), transparent 35%);
+    z-index: -2;
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: .5;
+    animation: twinkle 4s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%,100% { opacity: .15; transform: scale(.8); }
+    50% { opacity: .9; transform: scale(1.3); }
+}
+
+/* =========================
+   ОБЩИЕ ЭЛЕМЕНТЫ
+========================= */
+
+button {
+    font-family: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================
+   ЗАСТАВКА
+========================= */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    background: #03040c;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: opacity 1.4s ease, visibility 1.4s ease;
+}
+
+#intro.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.intro-content {
+    width: min(90%, 650px);
+}
+
+.intro-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(55px, 12vw, 110px);
+    letter-spacing: .12em;
+    font-weight: 400;
+    opacity: 0;
+    animation: titleAppear 2.5s ease forwards;
+}
+
+.intro-subtitle {
+    margin-top: 18px;
+    color: #a9a9bd;
+    font-size: 14px;
+    letter-spacing: .08em;
+    opacity: 0;
+    animation: subtitleAppear 2s ease 1.8s forwards;
+}
+
+@keyframes titleAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes subtitleAppear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.enter-hint {
+    margin-top: 70px;
+    font-size: 12px;
+    color: #6f7083;
+    opacity: 0;
+    animation: subtitleAppear 2s ease 3.5s forwards;
+}
+
+/* =========================
+   ЭКРАН ПАРОЛЯ
+========================= */
+
+#password-screen {
+    min-height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+}
+
+.password-box {
+    width: min(100%, 600px);
+    text-align: center;
+}
+
+.small-label {
+    color: #77788c;
+    font-size: 11px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+
+.password-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 9vw, 70px);
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.password-description {
+    color: #aaaabd;
+    line-height: 1.8;
+    font-size: 14px;
+    margin-bottom: 40px;
+}
+
+.riddle {
+    border-top: 1px solid rgba(255,255,255,.09);
+    border-bottom: 1px solid rgba(255,255,255,.09);
+    padding: 30px 10px;
+    color: #d9d9e5;
+    line-height: 2;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px;
+}
+
+.answer-input {
+    margin-top: 35px;
+    width: 100%;
+    max-width: 380px;
+    padding: 15px 18px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 4px;
+    color: white;
+    outline: none;
+    text-align: center;
+    font-size: 15px;
+}
+
+.answer-input:focus {
+    border-color: rgba(180,170,240,.55);
+}
+
+.open-button {
+    display: block;
+    margin: 15px auto 0;
+    padding: 13px 34px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,.22);
+    color: white;
+    cursor: pointer;
+    transition: .3s;
+    letter-spacing: .12em;
+    font-size: 11px;
+}
+
+.open-button:hover {
+    background: rgba(255,255,255,.08);
+}
+
+.error-message {
+    min-height: 80px;
+    margin-top: 25px;
+    color: #999aaf;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.error-message strong {
+    color: #dddde8;
+    font-weight: 400;
+}
+
+/* =========================
+   ОСНОВНОЙ САЙТ
+========================= */
+
+#site {
+    display: none;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+#site.visible {
+    opacity: 1;
+}
+
+/* =========================
+   НАВИГАЦИЯ
+========================= */
+
+.navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 10px;
+    background: linear-gradient(to bottom, rgba(5,6,17,.95), transparent);
+}
+
+.nav-button {
+    background: transparent;
+    border: none;
+    color: #656678;
+    cursor: pointer;
+    font-size: 10px;
+    letter-spacing: .08em;
+    transition: .3s;
+    padding: 5px;
+}
+
+.nav-button:hover,
+.nav-button.active {
+    color: white;
+}
+
+/* =========================
+   СТРАНИЦЫ
+========================= */
+
+.chapter {
+    min-height: 100vh;
+    padding: 130px 22px 90px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.chapter.active {
+    display: flex;
+    animation: chapterAppear .9s ease;
+}
+
+@keyframes chapterAppear {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chapter-inner {
+    width: min(100%, 900px);
+}
+
+.chapter-number {
+    color: #67687d;
+    font-size: 11px;
+    letter-spacing: .25em;
+    margin-bottom: 18px;
+}
+
+.chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(50px, 10vw, 90px);
+    font-weight: 400;
+    line-height: .95;
+    margin-bottom: 45px;
+}
+
+.text {
+    color: #b9bac9;
+    font-size: 15px;
+    line-height: 2;
+    max-width: 680px;
+}
+
+.text p {
+    margin-bottom: 22px;
+}
+
+.quote {
+    margin: 45px 0;
+    padding-left: 22px;
+    border-left: 1px solid rgba(255,255,255,.25);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 25px;
+    color: #e3e3ee;
+    line-height: 1.6;
+}
+
+/* =========================
+   КНОПКИ
+========================= */
+
+.next-button {
+    margin-top: 55px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,.15);
+    padding: 14px 22px;
+    color: #bfc0cf;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: .15em;
+    transition: .3s;
+}
+
+.next-button:hover {
+    color: white;
+    border-color: rgba(255,255,255,.4);
+}
+
+/* =========================
+   АУДИО
+========================= */
+
+.audio-card {
+    margin-top: 35px;
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.025);
+}
+
+.audio-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.audio-description {
+    color: #77788b;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+audio {
+    width: 100%;
+}
+
+/* =========================
+   КАРТОЧКИ
+========================= */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.memory-card {
+    padding: 25px;
+    min-height: 160px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.025);
+    cursor: pointer;
+    transition: .4s;
+}
+
+.memory-card:hover {
+    background: rgba(255,255,255,.055);
+    transform: translateY(-3px);
+}
+
+.memory-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 25px;
+    font-weight: 400;
+    margin-bottom: 12px;
+}
+
+.memory-card p {
+    color: #77788b;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.card-hidden {
+    display: none;
+    margin-top: 18px;
+    color: #c9c9d6;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+.memory-card.open .card-hidden {
+    display: block;
+}
+
+/* =========================
+   MINECRAFT
+========================= */
+
+.minecraft-world {
+    position: relative;
+    margin-top: 40px;
+    min-height: 430px;
+    border: 1px solid rgba(255,255,255,.10);
+    overflow: hidden;
+    background:
+        linear-gradient(to bottom, #080b1b 0%, #11152b 60%, #101318 60%, #080a0d 100%);
+}
+
+.moon {
+    position: absolute;
+    top: 45px;
+    right: 60px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #e6e5df;
+    box-shadow: 0 0 35px rgba(230,229,223,.25);
+}
+
+.house {
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 150px;
+    background: #302c35;
+    border: 5px solid #17151c;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.house:hover {
+    transform: translateX(-50%) scale(1.03);
+}
+
+.roof {
+    position: absolute;
+    left: -20px;
+    top: -75px;
+    width: 250px;
+    height: 90px;
+    background: #25212b;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.window {
+    position: absolute;
+    width: 38px;
+    height: 45px;
+    background: #b4a45c;
+    border: 4px solid #17151c;
+    bottom: 45px;
+}
+
+.window.one {
+    left: 35px;
+}
+
+.window.two {
+    right: 35px;
+}
+
+.door {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 75px;
+    background: #17131a;
+    border: 3px solid #0d0c10;
+}
+
+.sign {
+    position: absolute;
+    left: 50%;
+    bottom: 225px;
+    transform: translateX(-50%);
+    background: #96704e;
+    color: #201810;
+    padding: 8px 14px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.minecraft-note {
+    display: none;
+    position: absolute;
+    inset: 25px;
+    background: rgba(4,5,12,.94);
+    z-index: 10;
+    padding: 35px;
+    border: 1px solid rgba(255,255,255,.12);
+}
+
+.minecraft-note.show {
+    display: block;
+}
+
+.minecraft-note h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.minecraft-note p {
+    color: #b7b8c6;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+/* =========================
+   ГАЛЕРЕЯ
+========================= */
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.photo-placeholder {
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.025);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #606174;
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+}
+
+.photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================
+   ПЕРЕПИСКА
+========================= */
+
+.chat {
+    margin-top: 40px;
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.018);
+}
+
+.message {
+    max-width: 78%;
+    padding: 10px 13px;
+    margin-bottom: 10px;
+    border-radius: 13px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.message.him {
+    background: #1c1d29;
+    margin-right: auto;
+}
+
+.message.me {
+    background: #303044;
+    margin-left: auto;
+}
+
+.message small {
+    display: block;
+    margin-top: 4px;
+    color: #707183;
+    font-size: 9px;
+}
+
+/* =========================
+   МУЗЫКА
+========================= */
+
+.music-list {
+    margin-top: 40px;
+}
+
+.song {
+    padding: 25px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.song-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.song-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 27px;
+}
+
+.artist {
+    color: #737487;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.song-button {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.2);
+    background: transparent;
+    color: white;
+    cursor: pointer;
+}
+
+.song-description {
+    color: #9293a5;
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: 15px;
+}
+
+/* =========================
+   ФИНАЛ
+========================= */
+
+.final-page {
+    text-align: center;
+}
+
+.final-page .chapter-title {
+    margin-bottom: 30px;
+}
+
+.final-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(35px, 7vw, 65px);
+    color: white;
+    margin-top: 70px;
+}
+
+.restart {
+    margin-top: 70px;
+    background: transparent;
+    border: none;
+    color: #646577;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: .15em;
+}
+
+.secret-star {
+    margin: 50px auto 0;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 20px white;
+    opacity: .25;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.secret-star:hover {
+    opacity: 1;
+    transform: scale(1.8);
+}
+
+.secret-message {
+    display: none;
+    margin-top: 25px;
+    color: #b8b9c7;
+    font-size: 13px;
+}
+
+.secret-message.show {
+    display: block;
+}
+
+/* =========================
+   АДАПТАЦИЯ
+========================= */
+
+@media (max-width: 650px) {
+
+    .navigation {
+        gap: 4px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .nav-button {
+        min-width: 25px;
+    }
+
+    .chapter {
+        padding-top: 100px;
+    }
+
+    .cards,
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .minecraft-world {
+        min-height: 370px;
+    }
+
+    .house {
+        width: 180px;
+    }
+
+    .roof {
+        width: 210px;
+    }
+
+    .message {
+        max-width: 88%;
+    }
+
+    .song-top {
+        align-items: flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ЗВЁЗДЫ -->
+<div class="stars" id="stars"></div>
+
+<!-- =========================
+     ЗАСТАВКА
+========================= -->
+
+<section id="intro">
+    <div class="intro-content">
+
+        <div class="intro-title">
+            Между строк
+        </div>
+
+        <div class="intro-subtitle">
+            Сайт для динозавра. От хомячка.
+        </div>
+
+        <div class="enter-hint">
+            кое-что осталось между строк
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =========================
+     ПАРОЛЬ
+========================= -->
+
+<section id="password-screen">
+
+    <div class="password-box">
+
+        <div class="small-label">
+            прежде чем войти
+        </div>
+
+        <h1 class="password-title">
+            Одна загадка
+        </h1>
+
+        <p class="password-description">
+            Здесь есть одна вещь, которую ты должен вспомнить.
+        </p>
+
+        <div class="riddle">
+
+            Иногда организм реагирует на то,<br>
+            чего совсем не просил.<br><br>
+
+            Иногда причина оказывается<br>
+            совершенно неожиданной.<br><br>
+
+            А иногда один человек<br>
+            сам заявляет, что именно он<br>
+            вызвал такую реакцию.<br><br>
+
+            <strong>Что это?</strong>
+
+        </div>
+
+        <input
+            id="answer"
+            class="answer-input"
+            type="text"
+            placeholder="Введите ответ..."
+            autocomplete="off"
+        >
+
+        <button
+            class="open-button"
+            onclick="checkPassword()"
+        >
+            ОТКРЫТЬ
+        </button>
+
+        <div
+            id="error"
+            class="error-message"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ОСНОВНОЙ САЙТ
+========================= -->
+
+<main id="site">
+
+    <!-- НАВИГАЦИЯ -->
+
+    <nav class="navigation">
+
+        <button class="nav-button active" onclick="goTo(0)">01</button>
+        <button class="nav-button" onclick="goTo(1)">02</button>
+        <button class="nav-button" onclick="goTo(2)">03</button>
+        <button class="nav-button" onclick="goTo(3)">04</button>
+        <button class="nav-button" onclick="goTo(4)">05</button>
+        <button class="nav-button" onclick="goTo(5)">06</button>
+        <button class="nav-button" onclick="goTo(6)">07</button>
+        <button class="nav-button" onclick="goTo(7)">08</button>
+
+    </nav>
+
+
+    <!-- =========================
+         01 — ГОЛОС
+    ========================= -->
+
+    <section class="chapter active">
+
+        <div class="chapter-inner">
+
+            <div class="chapter-number">01</div>
+
+            <h2 class="chapter-title">
+                Голос
+            </h2>
+
+            <div class="text">
+
+                <p>
+                    Иногда история начинается совсем не так,
+                    как её потом вспоминают.
+                </p>
+
+                <p>
+                    Без красивого момента.
+                    Без предупреждения.
+                    Без ощущения, что этот человек
+                    когда-нибудь станет важным.
+                </p>
+
+                <p>
+                    Просто однажды появляется голос,
+                    который раньше ты никогда не слышал.
+                </p>
+
+                <div class="quote">
+                    «Иногда достаточно одного разговора,
+                    чтобы совершенно незнакомый человек
+                    перестал казаться таким уж незнакомым.»
+                </div>
+
+                <p>
+                    А дальше была ночь.
+                    Разговор.
+                    Ещё один разговор.
+                    И постепенно стало понятно,
+                    что заканчивать его совсем не хочется.
+                </p>
+
+            </div>
+
+            <div class="audio-card">
+
+                <div class="audio-title">
+                    Первый разговор
+                </div>
+
+                <div class="audio-description">
+                    Здесь позже появится небольшой фрагмент
+                    записи вашего первого разговора.
+                </div>
+
+                <audio controls>
+                    <source src="audio/first-call.mp3" type="audio/mpeg">
+                    Ваш браузер не поддерживает аудио.
+                </audio>
+
+            </div>
+
+            <button class="next-button" onclick="goTo(1)">
+                ДАЛЬШЕ →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         02 — ПЕРВЫЕ ВПЕЧАТЛЕНИЯ
+    ========================= -->
+
+    <section class="chapter">
+
+        <div class="chapter-inner">
+
+            <div class="chapter-number">02</div>
+
+            <h2 class="chapter-title">
+                Первые впечатления
+            </h2>
+
+            <div class="text">
+
+                <p>
+                    В самом начале я ещё не знала,
+                    что именно запомню.
+                </p>
+
+                <p>
+                    Наверное, странно вспоминать человека
+                    именно по каким-то мелочам.
+                    Но почему-то именно они остаются.
+                </p>
+
+            </div>
+
+            <div class="cards">
+
+                <div class="memory-card" onclick="this.classList.toggle('open')">
+
+                    <h3>Голос</h3>
+
+                    <p>
+                        То, что ты заметил практически сразу.
+                    </p>
+
+                    <div class="card-hidden">
+                        В тот момент я была сонной,
+                        поэтому голос действительно звучал иначе.
+                        А ты почему-то обратил на это внимание.
+                    </div>
+
+                </div>
+
+                <div class="memory-card" onclick="this.classList.toggle('open')">
+
+                    <h3>Юмор</h3>
+
+                    <p>
+                        Некоторые шутки были настолько странными,
+                        что их невозможно было забыть.
+                    </p>
+
+                    <div class="card-hidden">
+                        Особенно те моменты,
+                        когда ты начинал серьёзно оправдываться
+                        и этим только делал ситуацию смешнее.
+                    </div>
+
+                </div>
+
+                <div class="memory-card" onclick="this.classList.toggle('open')">
+
+                    <h3>Разговоры</h3>
+
+                    <p>
+                        Сначала обычные.
+                        Потом уже совсем не обычные.
+                    </p>
+
+                    <div class="card-hidden">
+                        В какой-то момент разговор перестал
+                        быть просто разговором двух незнакомых людей.
+                    </div>
+
+                </div>
+
+                <div class="memory-card" onclick="this.classList.toggle('open')">
+
+                    <h3>Ты</h3>
+
+                    <p>
+                        Самая большая карточка,
+                        которую я так и не смогла подписать.
+                    </p>
+
+                    <div class="card-hidden">
+                        Потому что одного слова для тебя
+                        постепенно стало недостаточно.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button class="next-button" onclick="goTo(2)">
+                ДАЛЬШЕ →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         03 — НАШ МИР
+    ========================= -->
+
+    <section class="chapter">
+
+        <div class="chapter-inner">
+
+            <div class="chapter-number">03</div>
+
+            <h2 class="chapter-title">
+                Наш мир
+            </h2>
+
+            <div class="text">
+
+                <p>
+                    Есть места, которые существуют только
+                    потому, что однажды кто-то решил их построить.
+                </p>
+
+                <p>
+                    А иногда маленький виртуальный мир
+                    почему-то становится настоящим воспоминанием.
+                </p>
+
+            </div>
+
+            <div class="minecraft-world">
+
+                <div class="moon"></div>
+
+                <div
+                    class="sign"
+                    onclick="showMinecraftNote('sign')"
+                >
+                    ТАБЛИЧКА
+                </div>
+
+                <div
+                    class="house"
+                    onclick="showMinecraftNote('house')"
+                >
+
+                    <div class="roof"></div>
+
+                    <div class="window one"></div>
+                    <div class="window two"></div>
+
+                    <div class="door"></div>
+
+                </div>
+
+                <div
+                    id="minecraft-note"
+                    class="minecraft-note"
+                >
+
+                    <h3 id="minecraft-note-title">
+                        Наш дом
+                    </h3>
+
+                    <p id="minecraft-note-text">
+                    </p>
+
+                    <button
+                        class="next-button"
+                        onclick="closeMinecraftNote()"
+                    >
+                        ЗАКРЫТЬ
+                    </button>
+
+                </div>
+
+            </div>
+
+            <button class="next-button" onclick="goTo(3)">
+                ДАЛЬШЕ →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         04 — МЕЖДУ СООБЩЕНИЯМИ
+    ========================= -->
+
+    <section class="chapter">
+
+        <div class="chapter-inner">
+
+            <div class="chapter-number">04</div>
+
+            <h2 class="chapter-title">
+                Между сообщениями
+            </h2>
+
+            <div class="text">
+
+                <p>
+                    Некоторые разговоры заканчиваются,
+                    но почему-то не заканчиваются в голове.
+                </p>
+
+                <p>
+                    Остаются отдельные фразы.
+                    Шутки.
+                    Странные вопросы.
+                    Ответы, которые потом неожиданно вспоминаешь.
+                </p>
+
+            </div>
+
+            <div class="chat">
+
+                <div class="message him">
+                    Я тоже фембой если что
+                    <small>Мирослав</small>
+                </div>
+
+                <div class="message me">
+                    ...
+                    <small>Хомячок</small>
+                </div>
+
+                <div class="message him">
+                    Почему у тебя голос,
+                    будто ты какая-то взрослая женщина?
+                    <small>Мирослав</small>
+                </div>
+
+                <div class="message me">
+                    Я просто сонная
+                    <small>Хомячок</small>
+                </div>
+
+                <div class="message him">
+                    Я играл во взрослую игру,
+                    в роблокс
+                    <small>Мирослав</small>
+                </div>
+
+            </div>
+
+            <div class="quote">
+                И ведь были разговоры намного длиннее.
+                Но иногда пять слов запоминаются
+                лучше пяти часов.
+            </div>
+
+            <button class="next-button" onclick="goTo(4)">
+                ДАЛЬШЕ →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         05 — ЗВУК
+    ========================= -->
+
+    <section class="chapter">
+
+        <div class="chapter-inner">
+
+            <div class="chapter-number">05</div>
+
+            <h2 class="chapter-title">
+                Звук
+            </h2>
+
+            <div class="text">
+
+                <p>
+                    Есть песни, которые сами по себе
+                    ничего для тебя не значили.
+                </p>
+
+                <p>
+                    А потом появляется человек —
+                    и внезапно одна мелодия начинает
+                    напоминать именно о нём.
+                </p>
+
+            </div>
+
+            <div class="music-list">
+
+                <!-- ПЕСНЯ 1 -->
+
+                <div class="song">
+
+                    <div class="song-top">
+
+                        <div>
+                            <div class="song-name">
+                                Хочу быть с ней и всё
+                            </div>
+
+                            <div class="artist">
+                                Урал Гайсин
+                            </div>
+                        </div>
+
+                        <button class="song-button">
+                            ▶
+                        </button>
+
+                    </div>
+
+                    <div class="song-description">
+                        Этот исполнитель стал ассоциироваться лишь с ним.
+                    </div>
+
+                </div>
+
+
+                <!-- ПЕСНЯ 2 -->
+
+                <div class="song">
+
+                    <div class="song-top">
+
+                        <div>
+                            <div class="song-name">
+                                Моя мини принцесса
+                            </div>
+
+                            <div class="artist">
+                                Урал Гайсин
+                            </div>
+                        </div>
+
+                        <button class="song-button">
+                            ▶
+                        </button>
+
+                    </div>
+
+                    <div class="song-description">
+                        Он узнал про странные ассоциации,
+                        и эта песня почему-то напоминала
+                        ей новогоднюю атмосферу.
+                    </div>
+
+                </div>
+
+
+                <!-- ПЕСНЯ 3 -->
+
+                <div class="song">
+
+                    <div class="song-top">
+
+                        <div>
+                            <div class="song-name">
+                                Позвони
+                            </div>
+
+                            <div class="artist">
+                                Оксана Почепа (Акула)
+                            </div>
+                        </div>
+
+                        <button class="song-button">
+                            ▶
+                        </button>
+
+                    </div>
+
+                    <div class="song-description">
+                        Он сказал, что с этой песней
+                        ассоциируется она.
+                        И она слушала её каждый следующий день.
+                    </div>
+
+                </div>
+
+
+                <!-- ПЕСНЯ 4 -->
+
+                <div class="song">
+
+                    <div class="song-top">
+
+                        <div>
+                            <div class="song-name">
+                                Я подарю
+                            </div>
+
+                            <div class="artist">
+                                Эндшпиль
+                            </div>
+                        </div>
+
+                        <button class="song-button">
+                            ▶
+                        </button>
+
+                    </div>
+
+                    <div class="song-description">
+                        У него было такое настроение.
+                        А она так и не поняла почему.
+                    </div>
+
+                </div>
+
+
+                <!-- ПЕСНЯ 5 -->
+
+                <div class="song">
+
+                    <div class="song-top">
+
+                        <div>
+                            <div class="song-name">
+                                Отказываю небу
+                            </div>
+
+                            <div class="artist">
+                                pyrokinesis
+                            </div>
+                        </div>
+
+                        <button class="song-button">
+                            ▶
+                        </button>
+
+                    </div>
+
+                    <div class="song-description">
+                        Эта песня каким-то образом
+                        свела их ближе.
+                    </div>
+
+                </div>
+
+
+                <!-- ПЕСНЯ 6 -->
+
+                <div class="song">
+
+                    <div class="song-top">
+
+                        <div>
+                            <div class="song-name">
+                                Я тебя люблю
+                            </div>
+
+                            <div class="artist">
+                                Урал Гайсин
+                            </div>
+                        </div>
+
+                        <button class="song-button">
+                            ▶
+                        </button>
+
+                    </div>
+
+                    <div class="song-description">
+                        После неё мысли о нём
+                        стали совсем другими.
+                    </div>
+
+                </div>
+
+
+                <!-- ПЕСНЯ 7 -->
+
+                <div class="song">
+
+                    <div class="song-top">
+
+                        <div>
+                            <div class="song-name">
+                                Дома
+                            </div>
+
+                            <div class="artist">
+                                LUCAVEROS
+                            </div>
+                        </div>
+
+                        <button class="song-button">
+                            ▶
+                        </button>
+
+                    </div>
+
+                    <div class="song-description">
+                        Песня, которая стала ассоциироваться
+                        с ним тогда, когда он стал ближе.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button class="next-button" onclick="goTo(5)">
+                ДАЛЬШЕ →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         06 — МАЛЕНЬКИЕ ВЕЩИ
+    ========================= -->
+
+    <section class="chapter">
+
+        <div class="chapter-inner">
+
+            <div class="chapter-number">06</div>
+
+            <h2 class="chapter-title">
+                Маленькие вещи
+            </h2>
+
+            <div class="text">
+
+                <p>
+                    Наверное, самое странное —
+                    это то, сколько совершенно обычных
+                    вещей вдруг становятся воспоминаниями.
+                </p>
+
+                <p>
+                    Скриншот.
+                    Сообщение.
+                    Игра.
+                    Табличка.
+                    Фраза, которую можно было бы забыть.
+                </p>
+
+                <p>
+                    Но почему-то не забыла.
+                </p>
+
+            </div>
+
+            <div class="gallery">
+
+                <div class="photo-placeholder">
+                    Здесь будет скриншот из вашей игры
+                </div>
+
+                <div class="photo-placeholder">
+                    Здесь будет фотография / скриншот
+                </div>
+
+                <div class="photo-placeholder">
+                    Здесь будет ваша табличка
+                </div>
+
+                <div class="photo-placeholder">
+                    Здесь будет ещё один момент
+                </div>
+
+            </div>
+
+            <button class="next-button" onclick="goTo(6)">
+                ДАЛЬШЕ →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         07 — ТО, ЧТО ИЗМЕНИЛОСЬ
+    ========================= -->
+
+    <section class="chapter">
+
+        <div class="chapter-inner">
+
+            <div class="chapter-number">07</div>
+
+            <h2 class="chapter-title">
+                То, что изменилось
+            </h2>
+
+            <div class="text">
+
+                <p>
+                    Сначала ты был просто человеком,
+                    с которым было интересно говорить.
+                </p>
+
+                <p>
+                    Потом человеком, которому хотелось написать.
+                </p>
+
+                <p>
+                    Потом человеком, которому хотелось
+                    рассказывать больше.
+                </p>
+
+                <p>
+                    А потом я заметила,
+                    что некоторые вещи я уже мысленно
+                    хочу рассказать именно тебе.
+                </p>
+
+                <div class="quote">
+                    Наверное, именно так человек
+                    и становится важным.
+                    Не в один конкретный момент,
+                    а постепенно.
+                </div>
+
+                <p>
+                    И, наверное, поэтому этот сайт существует.
+                </p>
+
+            </div>
+
+            <button class="next-button" onclick="goTo(7)">
+                ДАЛЬШЕ →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         08 — МЕЖДУ СТРОК
+    ========================= -->
+
+    <section class="chapter final-page">
+
+        <div class="chapter-inner">
+
+            <div class="chapter-number">08</div>
+
+            <h2 class="chapter-title">
+                Между строк
+            </h2>
+
+            <div class="text" style="margin:auto;">
+
+                <p>
+                    Я могла бы написать здесь всё прямо.
+                </p>
+
+                <p>
+                    Сказать всё одним предложением.
+                    Объяснить каждую мысль.
+                    Подписать каждое воспоминание.
+                </p>
+
+                <p>
+                    Но тогда тебе не пришлось бы
+                    читать между строк.
+                </p>
+
+            </div>
+
+            <div class="final-question">
+                Что между строк?
+            </div>
+
+            <div
+                class="secret-star"
+                onclick="showSecret()"
+                title="..."
+            ></div>
+
+            <div
+                id="secret-message"
+                class="secret-message"
+            >
+                Ты всё-таки заметил.
+            </div>
+
+            <button
+                class="restart"
+                onclick="restartSite()"
+            >
+                ← НАЧАТЬ СНАЧАЛА
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+/* =========================
+   СОЗДАНИЕ ЗВЁЗД
+========================= */
+
+const stars = document.getElementById("stars");
+
+for (let i = 0; i < 120; i++) {
+
+    const star = document.createElement("div");
+
+    star.className = "star";
+
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+
+    star.style.animationDelay =
+        Math.random() * 4 + "s";
+
+    star.style.animationDuration =
+        (2 + Math.random() * 5) + "s";
+
+    stars.appendChild(star);
+}
+
+
+/* =========================
+   ПЕРЕХОД ОТ ЗАСТАВКИ
+========================= */
+
+setTimeout(() => {
+
+    const intro = document.getElementById("intro");
+
+    intro.classList.add("fade-out");
+
+    setTimeout(() => {
+
+        intro.style.display = "none";
+
+        document.getElementById("password-screen").style.display =
+            "flex";
+
+    }, 1400);
+
+}, 5200);
+
+
+/* =========================
+   ПАРОЛЬ
+========================= */
+
+function checkPassword() {
+
+    const input =
+        document.getElementById("answer");
+
+    const error =
+        document.getElementById("error");
+
+    const answer =
+        input.value.trim().toLowerCase();
+
+    if (answer === "аллерген") {
+
+        error.innerHTML = "";
+
+        document.getElementById("password-screen").style.display =
+            "none";
+
+        const site =
+            document.getElementById("site");
+
+        site.style.display = "block";
+
+        setTimeout(() => {
+            site.classList.add("visible");
+        }, 50);
+
+    } else {
+
+        error.innerHTML = `
+            <strong>Не совсем.</strong><br>
+            Подсказка: открой диалог в Telegram.<br>
+            <strong>24.08.2026 · 13:35</strong>
+        `;
+
+        input.value = "";
+
+    }
+}
+
+
+/* =========================
+   ПЕРЕХОД МЕЖДУ ГЛАВАМИ
+========================= */
+
+let currentChapter = 0;
+
+const chapters =
+    document.querySelectorAll(".chapter");
+
+const navButtons =
+    document.querySelectorAll(".nav-button");
+
+
+function goTo(number) {
+
+    if (number < 0 || number >= chapters.length) {
+        return;
+    }
+
+    chapters[currentChapter].classList.remove("active");
+    navButtons[currentChapter].classList.remove("active");
+
+    currentChapter = number;
+
+    chapters[currentChapter].classList.add("active");
+    navButtons[currentChapter].classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================
+   MINECRAFT
+========================= */
+
+function showMinecraftNote(type) {
+
+    const note =
+        document.getElementById("minecraft-note");
+
+    const title =
+        document.getElementById("minecraft-note-title");
+
+    const text =
+        document.getElementById("minecraft-note-text");
+
+
+    if (type === "house") {
+
+        title.innerText =
+            "Наш дом";
+
+        text.innerText =
+            "Здесь позже будет настоящий рассказ о вашем доме в Minecraft: как ты его строила, как он потом украшался и почему этот маленький виртуальный дом стал отдельным воспоминанием.";
+
+    }
+
+
+    if (type === "sign") {
+
+        title.innerText =
+            "Таблички";
+
+        text.innerText =
+            "Здесь позже появятся ваши настоящие таблички, фразы и история каждого момента.";
+
+    }
+
+
+    note.classList.add("show");
+}
+
+
+function closeMinecraftNote() {
+
+    document
+        .getElementById("minecraft-note")
+        .classList.remove("show");
+
+}
+
+
+/* =========================
+   СЕКРЕТНАЯ ПАСХАЛКА
+========================= */
+
+function showSecret() {
+
+    document
+        .getElementById("secret-message")
+        .classList.add("show");
+
+}
+
+
+/* =========================
+   НАЧАТЬ СНАЧАЛА
+========================= */
+
+function restartSite() {
+
+    document.getElementById("site").style.display = "none";
+
+    document.getElementById("password-screen").style.display =
+        "flex";
+
+    document.getElementById("answer").value = "";
+
+    document.getElementById("error").innerHTML = "";
+
+    goTo(0);
+
+}
+
+</script>
+
+</body>
+</html>
