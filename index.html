@@ -6,7 +6,7 @@
 <title>Между строк</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
 
 * {
     box-sizing: border-box;
@@ -14,789 +14,669 @@
     padding: 0;
 }
 
+:root {
+    --bg: #08070d;
+    --bg2: #11101a;
+    --card: rgba(255,255,255,.055);
+    --border: rgba(255,255,255,.11);
+    --text: #eeeaf5;
+    --muted: #a8a2b5;
+    --accent: #b99cff;
+    --accent2: #8c72d8;
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    background: #050611;
-    color: #eeeeF8;
-    font-family: 'Manrope', sans-serif;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(130,90,220,.13), transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(170,120,255,.08), transparent 30%),
+        var(--bg);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
 }
 
-/* =========================
-   ЗВЁЗДНОЕ НЕБО
-========================= */
+/* ---------- ЗВЁЗДЫ ---------- */
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 15% 20%, rgba(107, 92, 180, .18), transparent 28%),
-        radial-gradient(circle at 80% 70%, rgba(70, 75, 150, .13), transparent 30%),
-        radial-gradient(circle at 50% 100%, rgba(105, 62, 150, .10), transparent 35%);
-    z-index: -2;
-}
-
-.stars {
+.stars,
+.stars::before,
+.stars::after {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: -1;
-    overflow: hidden;
 }
 
-.star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    border-radius: 50%;
-    opacity: .5;
-    animation: twinkle 4s infinite ease-in-out;
+.stars {
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,.4) 1px, transparent 1px);
+    background-size: 120px 120px, 190px 190px;
+    background-position: 20px 30px, 70px 100px;
+    opacity: .35;
 }
 
-@keyframes twinkle {
-    0%,100% { opacity: .15; transform: scale(.8); }
-    50% { opacity: .9; transform: scale(1.3); }
+.stars::before {
+    content: "";
+    background-image: radial-gradient(circle, white 1px, transparent 1px);
+    background-size: 230px 230px;
+    animation: drift 35s linear infinite;
+    opacity: .25;
 }
 
-/* =========================
-   ОБЩИЕ ЭЛЕМЕНТЫ
-========================= */
+@keyframes drift {
+    from { transform: translateY(0); }
+    to { transform: translateY(-230px); }
+}
+
+/* ---------- ОБЩЕЕ ---------- */
+
+.screen {
+    min-height: 100vh;
+    display: none;
+    padding: 35px 18px;
+    animation: fade .8s ease;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    width: min(900px, 100%);
+    margin: auto;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: clamp(36px, 8vw, 62px);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--muted);
+    line-height: 1.7;
+}
 
 button {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.06);
+    color: var(--text);
+    padding: 13px 22px;
+    border-radius: 30px;
+    cursor: pointer;
     font-family: inherit;
+    transition: .3s;
 }
 
-.hidden {
-    display: none !important;
+button:hover {
+    background: rgba(185,156,255,.15);
+    border-color: rgba(185,156,255,.5);
+    transform: translateY(-2px);
 }
 
-/* =========================
-   ЗАСТАВКА
-========================= */
+.primary {
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    color: #fff;
+    border: none;
+}
+
+.next {
+    display: block;
+    margin: 35px auto 0;
+}
+
+/* ---------- ВСТУПЛЕНИЕ ---------- */
 
 #intro {
-    position: fixed;
-    inset: 0;
-    background: #03040c;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
-    transition: opacity 1.4s ease, visibility 1.4s ease;
-}
-
-#intro.fade-out {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.intro-content {
-    width: min(90%, 650px);
 }
 
 .intro-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(55px, 12vw, 110px);
-    letter-spacing: .12em;
-    font-weight: 400;
-    opacity: 0;
-    animation: titleAppear 2.5s ease forwards;
+    font-size: clamp(60px, 16vw, 125px);
+    letter-spacing: 3px;
+    line-height: .85;
+    animation: titleAppear 2s ease;
 }
 
 .intro-subtitle {
-    margin-top: 18px;
-    color: #a9a9bd;
-    font-size: 14px;
-    letter-spacing: .08em;
-    opacity: 0;
-    animation: subtitleAppear 2s ease 1.8s forwards;
+    margin-top: 25px;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: fade 2s ease .5s both;
+}
+
+.intro-line {
+    width: 70px;
+    height: 1px;
+    background: var(--accent);
+    margin: 35px auto;
+    opacity: .7;
 }
 
 @keyframes titleAppear {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        letter-spacing: 15px;
         filter: blur(8px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        letter-spacing: 3px;
         filter: blur(0);
     }
 }
 
-@keyframes subtitleAppear {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
+/* ---------- ПАРОЛЬ ---------- */
 
-.enter-hint {
-    margin-top: 70px;
-    font-size: 12px;
-    color: #6f7083;
-    opacity: 0;
-    animation: subtitleAppear 2s ease 3.5s forwards;
-}
-
-/* =========================
-   ЭКРАН ПАРОЛЯ
-========================= */
-
-#password-screen {
-    min-height: 100vh;
-    display: none;
-    align-items: center;
+.center {
     justify-content: center;
-    padding: 30px 20px;
-}
-
-.password-box {
-    width: min(100%, 600px);
-    text-align: center;
-}
-
-.small-label {
-    color: #77788c;
-    font-size: 11px;
-    letter-spacing: .25em;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-}
-
-.password-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(42px, 9vw, 70px);
-    font-weight: 400;
-    margin-bottom: 15px;
-}
-
-.password-description {
-    color: #aaaabd;
-    line-height: 1.8;
-    font-size: 14px;
-    margin-bottom: 40px;
 }
 
 .riddle {
-    border-top: 1px solid rgba(255,255,255,.09);
-    border-bottom: 1px solid rgba(255,255,255,.09);
-    padding: 30px 10px;
-    color: #d9d9e5;
-    line-height: 2;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 21px;
+    max-width: 650px;
+    margin: 25px auto;
+    padding: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    line-height: 1.9;
+    color: #d8d2e3;
 }
 
-.answer-input {
-    margin-top: 35px;
-    width: 100%;
-    max-width: 380px;
-    padding: 15px 18px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 4px;
-    color: white;
-    outline: none;
-    text-align: center;
-    font-size: 15px;
-}
-
-.answer-input:focus {
-    border-color: rgba(180,170,240,.55);
-}
-
-.open-button {
-    display: block;
-    margin: 15px auto 0;
-    padding: 13px 34px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,.22);
-    color: white;
-    cursor: pointer;
-    transition: .3s;
-    letter-spacing: .12em;
-    font-size: 11px;
-}
-
-.open-button:hover {
-    background: rgba(255,255,255,.08);
-}
-
-.error-message {
-    min-height: 80px;
-    margin-top: 25px;
-    color: #999aaf;
-    font-size: 13px;
-    line-height: 1.8;
-}
-
-.error-message strong {
-    color: #dddde8;
-    font-weight: 400;
-}
-
-/* =========================
-   ОСНОВНОЙ САЙТ
-========================= */
-
-#site {
-    display: none;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-}
-
-#site.visible {
-    opacity: 1;
-}
-
-/* =========================
-   НАВИГАЦИЯ
-========================= */
-
-.navigation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
+.input-wrap {
     display: flex;
-    justify-content: center;
     gap: 10px;
-    padding: 18px 10px;
-    background: linear-gradient(to bottom, rgba(5,6,17,.95), transparent);
+    max-width: 480px;
+    margin: 20px auto;
 }
 
-.nav-button {
-    background: transparent;
-    border: none;
-    color: #656678;
-    cursor: pointer;
-    font-size: 10px;
-    letter-spacing: .08em;
-    transition: .3s;
-    padding: 5px;
-}
-
-.nav-button:hover,
-.nav-button.active {
+input {
+    width: 100%;
+    background: rgba(255,255,255,.055);
     color: white;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 14px 18px;
+    outline: none;
+    font-family: inherit;
 }
 
-/* =========================
-   СТРАНИЦЫ
-========================= */
-
-.chapter {
-    min-height: 100vh;
-    padding: 130px 22px 90px;
-    display: none;
-    align-items: center;
-    justify-content: center;
+input:focus {
+    border-color: var(--accent);
 }
 
-.chapter.active {
-    display: flex;
-    animation: chapterAppear .9s ease;
+.error {
+    color: #c8bde0;
+    min-height: 25px;
+    margin-top: 10px;
 }
 
-@keyframes chapterAppear {
-    from {
-        opacity: 0;
-        transform: translateY(18px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+/* ---------- ЗАГОЛОВОК СТРАНИЦ ---------- */
 
-.chapter-inner {
-    width: min(100%, 900px);
-}
-
-.chapter-number {
-    color: #67687d;
-    font-size: 11px;
-    letter-spacing: .25em;
-    margin-bottom: 18px;
-}
-
-.chapter-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(50px, 10vw, 90px);
-    font-weight: 400;
-    line-height: .95;
-    margin-bottom: 45px;
-}
-
-.text {
-    color: #b9bac9;
-    font-size: 15px;
-    line-height: 2;
-    max-width: 680px;
-}
-
-.text p {
-    margin-bottom: 22px;
-}
-
-.quote {
-    margin: 45px 0;
-    padding-left: 22px;
-    border-left: 1px solid rgba(255,255,255,.25);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 25px;
-    color: #e3e3ee;
-    line-height: 1.6;
-}
-
-/* =========================
-   КНОПКИ
-========================= */
-
-.next-button {
-    margin-top: 55px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,.15);
-    padding: 14px 22px;
-    color: #bfc0cf;
-    cursor: pointer;
-    font-size: 11px;
-    letter-spacing: .15em;
-    transition: .3s;
-}
-
-.next-button:hover {
-    color: white;
-    border-color: rgba(255,255,255,.4);
-}
-
-/* =========================
-   АУДИО
-========================= */
-
-.audio-card {
-    margin-top: 35px;
-    padding: 25px;
-    border: 1px solid rgba(255,255,255,.10);
-    background: rgba(255,255,255,.025);
-}
-
-.audio-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 25px;
-    margin-bottom: 8px;
-}
-
-.audio-description {
-    color: #77788b;
+.page-number {
+    color: var(--accent);
     font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.page-description {
+    max-width: 650px;
+    line-height: 1.8;
+    color: var(--muted);
+}
+
+/* ---------- ПЕРВАЯ ВСТРЕЧА ---------- */
+
+.memory-card {
+    margin-top: 35px;
+    padding: 35px 28px;
+    border-left: 2px solid var(--accent);
+    background: linear-gradient(
+        90deg,
+        rgba(185,156,255,.07),
+        transparent
+    );
+}
+
+.date {
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 2px;
     margin-bottom: 20px;
 }
 
-audio {
-    width: 100%;
-}
-
-/* =========================
-   КАРТОЧКИ
-========================= */
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-top: 35px;
-}
-
-.memory-card {
-    padding: 25px;
-    min-height: 160px;
-    border: 1px solid rgba(255,255,255,.08);
-    background: rgba(255,255,255,.025);
-    cursor: pointer;
-    transition: .4s;
-}
-
-.memory-card:hover {
-    background: rgba(255,255,255,.055);
-    transform: translateY(-3px);
-}
-
-.memory-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 25px;
-    font-weight: 400;
-    margin-bottom: 12px;
-}
-
 .memory-card p {
-    color: #77788b;
-    font-size: 12px;
-    line-height: 1.7;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    line-height: 1.6;
 }
 
-.card-hidden {
-    display: none;
-    margin-top: 18px;
-    color: #c9c9d6;
-    line-height: 1.8;
-    font-size: 13px;
-}
+/* ---------- MINECRAFT ---------- */
 
-.memory-card.open .card-hidden {
-    display: block;
-}
-
-/* =========================
-   MINECRAFT
-========================= */
-
-.minecraft-world {
+.minecraft {
+    margin-top: 35px;
+    min-height: 470px;
+    border-radius: 24px;
     position: relative;
-    margin-top: 40px;
-    min-height: 430px;
-    border: 1px solid rgba(255,255,255,.10);
     overflow: hidden;
+    border: 1px solid rgba(255,255,255,.1);
     background:
-        linear-gradient(to bottom, #080b1b 0%, #11152b 60%, #101318 60%, #080a0d 100%);
+        linear-gradient(
+            to bottom,
+            #11172c 0%,
+            #1c2440 52%,
+            #202020 52%,
+            #111 100%
+        );
 }
 
 .moon {
     position: absolute;
-    top: 45px;
-    right: 60px;
+    right: 35px;
+    top: 30px;
     width: 65px;
     height: 65px;
     border-radius: 50%;
-    background: #e6e5df;
-    box-shadow: 0 0 35px rgba(230,229,223,.25);
-}
-
-.house {
-    position: absolute;
-    left: 50%;
-    bottom: 50px;
-    transform: translateX(-50%);
-    width: 220px;
-    height: 150px;
-    background: #302c35;
-    border: 5px solid #17151c;
+    background: #e8e5c9;
+    box-shadow: 0 0 35px rgba(240,235,180,.35);
     cursor: pointer;
     transition: .3s;
 }
 
-.house:hover {
-    transform: translateX(-50%) scale(1.03);
+.moon:hover {
+    transform: scale(1.08);
 }
 
-.roof {
+.ground {
     position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 48%;
+    background:
+        linear-gradient(90deg,
+        transparent 0 8%,
+        rgba(0,0,0,.15) 8% 10%,
+        transparent 10% 20%);
+    background-color: #20231e;
+}
+
+.house {
+    position: absolute;
+    width: 180px;
+    height: 125px;
+    left: 50%;
+    bottom: 125px;
+    transform: translateX(-50%);
+    background: #795548;
+    border: 5px solid #3d2b25;
+}
+
+.house::before {
+    content: "";
+    position: absolute;
+    width: 210px;
+    height: 80px;
     left: -20px;
-    top: -75px;
-    width: 250px;
-    height: 90px;
-    background: #25212b;
+    top: -60px;
+    background: #3d2b25;
     clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.door {
+    position: absolute;
+    width: 35px;
+    height: 65px;
+    bottom: 0;
+    left: 72px;
+    background: #4a3026;
 }
 
 .window {
     position: absolute;
     width: 38px;
-    height: 45px;
-    background: #b4a45c;
-    border: 4px solid #17151c;
-    bottom: 45px;
+    height: 38px;
+    background: #9fd4d8;
+    border: 4px solid #3d2b25;
+    top: 35px;
 }
 
-.window.one {
-    left: 35px;
+.window.left {
+    left: 15px;
 }
 
-.window.two {
-    right: 35px;
-}
-
-.door {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 48px;
-    height: 75px;
-    background: #17131a;
-    border: 3px solid #0d0c10;
+.window.right {
+    right: 15px;
 }
 
 .sign {
     position: absolute;
-    left: 50%;
-    bottom: 225px;
-    transform: translateX(-50%);
-    background: #96704e;
-    color: #201810;
-    padding: 8px 14px;
-    font-size: 11px;
+    width: 125px;
+    min-height: 48px;
+    background: #a87b4d;
+    color: #24170e;
+    border: 3px solid #624326;
+    padding: 7px;
+    font-size: 9px;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.sign:hover {
+    transform: translateY(-5px);
+}
+
+.sign.one {
+    left: 8%;
+    bottom: 75px;
+}
+
+.sign.two {
+    right: 7%;
+    bottom: 190px;
+}
+
+.sign.three {
+    right: 10%;
+    bottom: 65px;
+}
+
+.fountain {
+    position: absolute;
+    left: 13%;
+    bottom: 185px;
+    width: 80px;
+    height: 55px;
+    background: #777;
+    border: 5px solid #444;
     cursor: pointer;
 }
 
-.minecraft-note {
-    display: none;
+.fountain::before {
+    content: "";
     position: absolute;
-    inset: 25px;
-    background: rgba(4,5,12,.94);
-    z-index: 10;
-    padding: 35px;
-    border: 1px solid rgba(255,255,255,.12);
+    width: 30px;
+    height: 55px;
+    left: 20px;
+    top: -35px;
+    background: #888;
+    border: 4px solid #444;
 }
 
-.minecraft-note.show {
-    display: block;
+.mc-note {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    color: #aaa;
+    font-size: 11px;
 }
 
-.minecraft-note h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 30px;
-    font-weight: 400;
-    margin-bottom: 20px;
-}
+/* ---------- МОДАЛКА ---------- */
 
-.minecraft-note p {
-    color: #b7b8c6;
-    font-size: 14px;
-    line-height: 1.9;
-}
-
-/* =========================
-   ГАЛЕРЕЯ
-========================= */
-
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-top: 35px;
-}
-
-.photo-placeholder {
-    aspect-ratio: 1 / 1;
-    border: 1px solid rgba(255,255,255,.08);
-    background: rgba(255,255,255,.025);
-    display: flex;
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    backdrop-filter: blur(8px);
+    z-index: 20;
     align-items: center;
     justify-content: center;
-    color: #606174;
-    text-align: center;
     padding: 20px;
-    font-size: 12px;
 }
 
-.photo-placeholder img {
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    max-width: 520px;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background: #15131d;
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    padding: 30px;
+    text-align: center;
+    animation: fade .4s ease;
 }
 
-/* =========================
-   ПЕРЕПИСКА
-========================= */
+.modal-box p {
+    line-height: 1.8;
+    color: #d9d2e5;
+    margin: 18px 0;
+}
+
+.choice {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ---------- МУЗЫКА ---------- */
+
+.music-list {
+    margin-top: 30px;
+    display: grid;
+    gap: 14px;
+}
+
+.song {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--card);
+}
+
+.song-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 23px;
+}
+
+.song-artist {
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 4px;
+}
+
+.song-note {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    margin-top: 12px;
+}
+
+.fake-player {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.play {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+/* ---------- СООБЩЕНИЯ ---------- */
+
+.chat-list {
+    margin-top: 30px;
+    display: grid;
+    gap: 30px;
+}
 
 .chat {
-    margin-top: 40px;
-    padding: 25px;
-    border: 1px solid rgba(255,255,255,.08);
-    background: rgba(255,255,255,.018);
+    background: rgba(255,255,255,.035);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 20px;
 }
 
 .message {
-    max-width: 78%;
-    padding: 10px 13px;
-    margin-bottom: 10px;
-    border-radius: 13px;
+    max-width: 82%;
+    padding: 11px 15px;
+    border-radius: 17px;
+    margin: 7px 0;
     font-size: 13px;
     line-height: 1.5;
 }
 
-.message.him {
-    background: #1c1d29;
-    margin-right: auto;
-}
-
-.message.me {
-    background: #303044;
+.me {
     margin-left: auto;
+    background: rgba(185,156,255,.16);
 }
 
-.message small {
-    display: block;
-    margin-top: 4px;
-    color: #707183;
-    font-size: 9px;
+.him {
+    background: rgba(255,255,255,.07);
 }
 
-/* =========================
-   МУЗЫКА
-========================= */
-
-.music-list {
-    margin-top: 40px;
-}
-
-.song {
-    padding: 25px 0;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-}
-
-.song-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.song-name {
+.thought {
+    margin-top: 16px;
+    text-align: center;
+    color: var(--accent);
     font-family: 'Cormorant Garamond', serif;
-    font-size: 27px;
+    font-size: 21px;
+    opacity: .9;
 }
 
-.artist {
-    color: #737487;
+.typing {
+    color: #8f899b;
     font-size: 11px;
-    margin-top: 5px;
+    margin-top: 12px;
 }
 
-.song-button {
-    flex-shrink: 0;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,.2);
-    background: transparent;
-    color: white;
+/* ---------- ФИНАЛ ---------- */
+
+.final-star {
+    font-size: 70px;
     cursor: pointer;
+    text-align: center;
+    margin: 30px 0;
+    animation: pulse 2s infinite;
 }
 
-.song-description {
-    color: #9293a5;
-    font-size: 13px;
+@keyframes pulse {
+    50% {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 15px rgba(185,156,255,.7));
+    }
+}
+
+.cipher {
+    margin: 30px auto;
+    padding: 25px;
+    max-width: 700px;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    background: var(--card);
+    overflow-x: auto;
+}
+
+.numbers {
+    font-family: monospace;
+    line-height: 2;
+    letter-spacing: 3px;
+    color: var(--accent);
+    word-break: break-word;
+}
+
+.hint {
+    text-align: center;
+    color: var(--muted);
     line-height: 1.8;
-    margin-top: 15px;
+    margin: 20px 0;
 }
 
-/* =========================
-   ФИНАЛ
-========================= */
-
-.final-page {
+.reveal {
+    display: none;
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 20px;
+    background: rgba(185,156,255,.08);
+    border: 1px solid rgba(185,156,255,.2);
     text-align: center;
 }
 
-.final-page .chapter-title {
-    margin-bottom: 30px;
-}
-
-.final-question {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(35px, 7vw, 65px);
-    color: white;
-    margin-top: 70px;
-}
-
-.restart {
-    margin-top: 70px;
-    background: transparent;
-    border: none;
-    color: #646577;
-    cursor: pointer;
-    font-size: 11px;
-    letter-spacing: .15em;
-}
-
-.secret-star {
-    margin: 50px auto 0;
-    width: 10px;
-    height: 10px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 0 20px white;
-    opacity: .25;
-    cursor: pointer;
-    transition: .4s;
-}
-
-.secret-star:hover {
-    opacity: 1;
-    transform: scale(1.8);
-}
-
-.secret-message {
-    display: none;
-    margin-top: 25px;
-    color: #b8b9c7;
-    font-size: 13px;
-}
-
-.secret-message.show {
+.reveal.show {
     display: block;
+    animation: fade .8s ease;
 }
 
-/* =========================
-   АДАПТАЦИЯ
-========================= */
+.italian {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 27px;
+    margin-bottom: 20px;
+}
 
-@media (max-width: 650px) {
+.translation {
+    color: var(--muted);
+    line-height: 1.8;
+}
 
-    .navigation {
-        gap: 4px;
-        overflow-x: auto;
-        justify-content: flex-start;
-        padding-left: 12px;
-        padding-right: 12px;
+@media (max-width: 600px) {
+    .input-wrap {
+        flex-direction: column;
     }
 
-    .nav-button {
-        min-width: 25px;
+    .memory-card p {
+        font-size: 21px;
     }
 
-    .chapter {
-        padding-top: 100px;
+    .minecraft {
+        min-height: 420px;
     }
 
-    .cards,
-    .gallery {
-        grid-template-columns: 1fr;
+    .sign {
+        width: 100px;
+        font-size: 8px;
     }
 
-    .minecraft-world {
-        min-height: 370px;
+    .sign.one {
+        left: 3%;
     }
 
-    .house {
-        width: 180px;
+    .sign.two {
+        right: 2%;
+        bottom: 175px;
     }
 
-    .roof {
-        width: 210px;
+    .sign.three {
+        right: 4%;
     }
 
-    .message {
-        max-width: 88%;
-    }
-
-    .song-top {
-        align-items: flex-start;
+    .fountain {
+        left: 5%;
     }
 }
 </style>
@@ -804,1106 +684,864 @@ audio {
 
 <body>
 
-<!-- ЗВЁЗДЫ -->
-<div class="stars" id="stars"></div>
+<div class="stars"></div>
 
-<!-- =========================
-     ЗАСТАВКА
-========================= -->
+<!-- ================= ВСТУПЛЕНИЕ ================= -->
 
-<section id="intro">
-    <div class="intro-content">
+<section class="screen active" id="intro">
+    <div class="container">
+        <h1 class="intro-title">Между строк</h1>
 
-        <div class="intro-title">
-            Между строк
-        </div>
+        <div class="intro-line"></div>
 
-        <div class="intro-subtitle">
+        <p class="intro-subtitle">
             Сайт для динозавра. От хомячка.
-        </div>
-
-        <div class="enter-hint">
-            кое-что осталось между строк
-        </div>
-
-    </div>
-</section>
-
-
-<!-- =========================
-     ПАРОЛЬ
-========================= -->
-
-<section id="password-screen">
-
-    <div class="password-box">
-
-        <div class="small-label">
-            прежде чем войти
-        </div>
-
-        <h1 class="password-title">
-            Одна загадка
-        </h1>
-
-        <p class="password-description">
-            Здесь есть одна вещь, которую ты должен вспомнить.
         </p>
 
-        <div class="riddle">
-
-            Иногда организм реагирует на то,<br>
-            чего совсем не просил.<br><br>
-
-            Иногда причина оказывается<br>
-            совершенно неожиданной.<br><br>
-
-            А иногда один человек<br>
-            сам заявляет, что именно он<br>
-            вызвал такую реакцию.<br><br>
-
-            <strong>Что это?</strong>
-
-        </div>
-
-        <input
-            id="answer"
-            class="answer-input"
-            type="text"
-            placeholder="Введите ответ..."
-            autocomplete="off"
-        >
-
-        <button
-            class="open-button"
-            onclick="checkPassword()"
-        >
-            ОТКРЫТЬ
+        <button class="primary next" onclick="showScreen('password')">
+            войти
         </button>
-
-        <div
-            id="error"
-            class="error-message"
-        ></div>
-
     </div>
-
 </section>
 
 
-<!-- =========================
-     ОСНОВНОЙ САЙТ
-========================= -->
+<!-- ================= ПАРОЛЬ ================= -->
 
-<main id="site">
+<section class="screen center" id="password">
+    <div class="container" style="text-align:center">
 
-    <!-- НАВИГАЦИЯ -->
+        <div class="page-number">01</div>
 
-    <nav class="navigation">
+        <h2>Небольшая загадка</h2>
 
-        <button class="nav-button active" onclick="goTo(0)">01</button>
-        <button class="nav-button" onclick="goTo(1)">02</button>
-        <button class="nav-button" onclick="goTo(2)">03</button>
-        <button class="nav-button" onclick="goTo(3)">04</button>
-        <button class="nav-button" onclick="goTo(4)">05</button>
-        <button class="nav-button" onclick="goTo(5)">06</button>
-        <button class="nav-button" onclick="goTo(6)">07</button>
-        <button class="nav-button" onclick="goTo(7)">08</button>
+        <div class="riddle">
+            Иногда организм реагирует на то, чего совсем не просил.
+            Иногда причина оказывается совершенно неожиданной.
+            А иногда один человек сам заявляет, что именно он
+            вызвал такую реакцию.
 
-    </nav>
+            <br><br>
 
+            <b>Что это?</b>
+        </div>
 
-    <!-- =========================
-         01 — ГОЛОС
-    ========================= -->
-
-    <section class="chapter active">
-
-        <div class="chapter-inner">
-
-            <div class="chapter-number">01</div>
-
-            <h2 class="chapter-title">
-                Голос
-            </h2>
-
-            <div class="text">
-
-                <p>
-                    Иногда история начинается совсем не так,
-                    как её потом вспоминают.
-                </p>
-
-                <p>
-                    Без красивого момента.
-                    Без предупреждения.
-                    Без ощущения, что этот человек
-                    когда-нибудь станет важным.
-                </p>
-
-                <p>
-                    Просто однажды появляется голос,
-                    который раньше ты никогда не слышал.
-                </p>
-
-                <div class="quote">
-                    «Иногда достаточно одного разговора,
-                    чтобы совершенно незнакомый человек
-                    перестал казаться таким уж незнакомым.»
-                </div>
-
-                <p>
-                    А дальше была ночь.
-                    Разговор.
-                    Ещё один разговор.
-                    И постепенно стало понятно,
-                    что заканчивать его совсем не хочется.
-                </p>
-
-            </div>
-
-            <div class="audio-card">
-
-                <div class="audio-title">
-                    Первый разговор
-                </div>
-
-                <div class="audio-description">
-                    Здесь позже появится небольшой фрагмент
-                    записи вашего первого разговора.
-                </div>
-
-                <audio controls>
-                    <source src="audio/first-call.mp3" type="audio/mpeg">
-                    Ваш браузер не поддерживает аудио.
-                </audio>
-
-            </div>
-
-            <button class="next-button" onclick="goTo(1)">
-                ДАЛЬШЕ →
+        <div class="input-wrap">
+            <input
+                id="passwordInput"
+                type="text"
+                placeholder="введи ответ..."
+                autocomplete="off"
+            >
+            <button class="primary" onclick="checkPassword()">
+                открыть
             </button>
+        </div>
+
+        <div class="error" id="passwordError"></div>
+
+    </div>
+</section>
+
+
+<!-- ================= С ЧЕГО ВСЁ НАЧАЛОСЬ ================= -->
+
+<section class="screen" id="start">
+    <div class="container">
+
+        <div class="page-number">02</div>
+
+        <h2>С чего всё началось</h2>
+
+        <div class="memory-card">
+
+            <div class="date">20.08.2026</div>
+
+            <p>
+                Всё началось с самого обычного разговора
+                в чат-рулетке.
+                Мы просто случайно услышали друг друга
+                среди множества незнакомых голосов.
+                Тогда я ещё не знала, что этот случайный разговор
+                станет началом чего-то, что мне захочется
+                сохранить между строк.
+            </p>
 
         </div>
 
-    </section>
+        <button class="primary next" onclick="showScreen('world')">
+            дальше →
+        </button>
+
+    </div>
+</section>
 
 
-    <!-- =========================
-         02 — ПЕРВЫЕ ВПЕЧАТЛЕНИЯ
-    ========================= -->
+<!-- ================= НАШ МИР ================= -->
 
-    <section class="chapter">
+<section class="screen" id="world">
+    <div class="container">
 
-        <div class="chapter-inner">
+        <div class="page-number">03</div>
 
-            <div class="chapter-number">02</div>
+        <h2>Наш мир</h2>
 
-            <h2 class="chapter-title">
-                Первые впечатления
-            </h2>
+        <p class="page-description">
+            Маленький мир, который остался где-то между
+            блоками, табличками и словами.
+        </p>
 
-            <div class="text">
+        <div class="minecraft">
 
-                <p>
-                    В самом начале я ещё не знала,
-                    что именно запомню.
-                </p>
+            <div class="moon" onclick="openMoon()"></div>
 
-                <p>
-                    Наверное, странно вспоминать человека
-                    именно по каким-то мелочам.
-                    Но почему-то именно они остаются.
-                </p>
+            <div class="ground"></div>
 
+            <div class="house">
+                <div class="window left"></div>
+                <div class="window right"></div>
+                <div class="door"></div>
             </div>
 
-            <div class="cards">
-
-                <div class="memory-card" onclick="this.classList.toggle('open')">
-
-                    <h3>Голос</h3>
-
-                    <p>
-                        То, что ты заметил практически сразу.
-                    </p>
-
-                    <div class="card-hidden">
-                        В тот момент я была сонной,
-                        поэтому голос действительно звучал иначе.
-                        А ты почему-то обратил на это внимание.
-                    </div>
-
-                </div>
-
-                <div class="memory-card" onclick="this.classList.toggle('open')">
-
-                    <h3>Юмор</h3>
-
-                    <p>
-                        Некоторые шутки были настолько странными,
-                        что их невозможно было забыть.
-                    </p>
-
-                    <div class="card-hidden">
-                        Особенно те моменты,
-                        когда ты начинал серьёзно оправдываться
-                        и этим только делал ситуацию смешнее.
-                    </div>
-
-                </div>
-
-                <div class="memory-card" onclick="this.classList.toggle('open')">
-
-                    <h3>Разговоры</h3>
-
-                    <p>
-                        Сначала обычные.
-                        Потом уже совсем не обычные.
-                    </p>
-
-                    <div class="card-hidden">
-                        В какой-то момент разговор перестал
-                        быть просто разговором двух незнакомых людей.
-                    </div>
-
-                </div>
-
-                <div class="memory-card" onclick="this.classList.toggle('open')">
-
-                    <h3>Ты</h3>
-
-                    <p>
-                        Самая большая карточка,
-                        которую я так и не смогла подписать.
-                    </p>
-
-                    <div class="card-hidden">
-                        Потому что одного слова для тебя
-                        постепенно стало недостаточно.
-                    </div>
-
-                </div>
-
+            <div
+                class="sign one"
+                onclick="openSign(1)"
+            >
+                этот мир создан
+                пенсионером и ребенком.
             </div>
 
-            <button class="next-button" onclick="goTo(2)">
-                ДАЛЬШЕ →
-            </button>
+            <div
+                class="sign two"
+                onclick="openSign(2)"
+            >
+                не забывай,
+                Земля круглая.
+            </div>
+
+            <div
+                class="sign three"
+                onclick="openSign(3)"
+            >
+                ты как погода
+                перед грозой.
+            </div>
+
+            <div
+                class="fountain"
+                onclick="openFountain()"
+            ></div>
+
+            <div class="mc-note">
+                нажми на предметы
+            </div>
 
         </div>
 
-    </section>
+        <button class="primary next" onclick="showScreen('music')">
+            дальше →
+        </button>
+
+    </div>
+</section>
 
 
-    <!-- =========================
-         03 — НАШ МИР
-    ========================= -->
+<!-- ================= МУЗЫКА ================= -->
 
-    <section class="chapter">
+<section class="screen" id="music">
+    <div class="container">
 
-        <div class="chapter-inner">
+        <div class="page-number">04</div>
 
-            <div class="chapter-number">03</div>
+        <h2>Музыка</h2>
 
-            <h2 class="chapter-title">
-                Наш мир
-            </h2>
+        <p class="page-description">
+            Иногда песня становится просто песней.
+            А иногда начинает напоминать о человеке.
+        </p>
 
-            <div class="text">
+        <div class="music-list">
 
-                <p>
-                    Есть места, которые существуют только
-                    потому, что однажды кто-то решил их построить.
-                </p>
-
-                <p>
-                    А иногда маленький виртуальный мир
-                    почему-то становится настоящим воспоминанием.
-                </p>
-
+            <div class="song">
+                <div class="song-title">
+                    Хочу быть с ней и всё
+                </div>
+                <div class="song-artist">
+                    Урал Гайсин
+                </div>
+                <div class="song-note">
+                    Этот исполнитель стал ассоциироваться лишь с ним.
+                </div>
+                <div class="fake-player">
+                    <button class="play" onclick="musicNotice()">▶</button>
+                    <span>песня пока ждёт своего аудиофайла</span>
+                </div>
             </div>
 
-            <div class="minecraft-world">
 
-                <div class="moon"></div>
-
-                <div
-                    class="sign"
-                    onclick="showMinecraftNote('sign')"
-                >
-                    ТАБЛИЧКА
+            <div class="song">
+                <div class="song-title">
+                    Моя мини принцесса
                 </div>
-
-                <div
-                    class="house"
-                    onclick="showMinecraftNote('house')"
-                >
-
-                    <div class="roof"></div>
-
-                    <div class="window one"></div>
-                    <div class="window two"></div>
-
-                    <div class="door"></div>
-
+                <div class="song-artist">
+                    Урал Гайсин
                 </div>
-
-                <div
-                    id="minecraft-note"
-                    class="minecraft-note"
-                >
-
-                    <h3 id="minecraft-note-title">
-                        Наш дом
-                    </h3>
-
-                    <p id="minecraft-note-text">
-                    </p>
-
-                    <button
-                        class="next-button"
-                        onclick="closeMinecraftNote()"
-                    >
-                        ЗАКРЫТЬ
-                    </button>
-
+                <div class="song-note">
+                    Он узнал, что у меня странные ассоциации
+                    со всем подряд. Эта напомнила мне атмосферу Нового года.
                 </div>
-
+                <div class="fake-player">
+                    <button class="play" onclick="musicNotice()">▶</button>
+                    <span>♡</span>
+                </div>
             </div>
 
-            <button class="next-button" onclick="goTo(3)">
-                ДАЛЬШЕ →
-            </button>
+
+            <div class="song">
+                <div class="song-title">
+                    Позвони
+                </div>
+                <div class="song-artist">
+                    Оксана Почепа (Акула)
+                </div>
+                <div class="song-note">
+                    Он сказал, что эта песня ассоциируется с ней.
+                    После этого я слушала её каждый следующий день,
+                    хотя раньше этот жанр мне совсем не нравился.
+                </div>
+                <div class="fake-player">
+                    <button class="play" onclick="musicNotice()">▶</button>
+                    <span>♡</span>
+                </div>
+            </div>
+
+
+            <div class="song">
+                <div class="song-title">
+                    Я подарю
+                </div>
+                <div class="song-artist">
+                    Эндшпиль
+                </div>
+                <div class="song-note">
+                    Он был в том настроении.
+                    Я так и не поняла почему, ведь разговаривали
+                    мы только вдвоём.
+                </div>
+                <div class="fake-player">
+                    <button class="play" onclick="musicNotice()">▶</button>
+                    <span>♡</span>
+                </div>
+            </div>
+
+
+            <div class="song">
+                <div class="song-title">
+                    Отказываю небу
+                </div>
+                <div class="song-artist">
+                    pyrokinesis
+                </div>
+                <div class="song-note">
+                    Эта песня свела нас ближе.
+                </div>
+                <div class="fake-player">
+                    <button class="play" onclick="musicNotice()">▶</button>
+                    <span>♡</span>
+                </div>
+            </div>
+
+
+            <div class="song">
+                <div class="song-title">
+                    Я тебя люблю
+                </div>
+                <div class="song-artist">
+                    Урал Гайсин
+                </div>
+                <div class="song-note">
+                    После этой песни я начала думать о нём
+                    уже немного иначе.
+                </div>
+                <div class="fake-player">
+                    <button class="play" onclick="musicNotice()">▶</button>
+                    <span>♡</span>
+                </div>
+            </div>
+
+
+            <div class="song">
+                <div class="song-title">
+                    Дома
+                </div>
+                <div class="song-artist">
+                    LUCAVEROS
+                </div>
+                <div class="song-note">
+                    Она стала ассоциироваться с ним,
+                    когда он стал ближе.
+                </div>
+                <div class="fake-player">
+                    <button class="play" onclick="musicNotice()">▶</button>
+                    <span>♡</span>
+                </div>
+            </div>
+
+
+            <div class="song">
+                <div class="song-title">
+                    Ты в моих мыслях навсегда
+                </div>
+                <div class="song-artist">
+                    Урал Гайсин
+                </div>
+                <div class="song-note">
+                    Ещё одна песня, которая теперь связана
+                    с этим временем.
+                </div>
+                <div class="fake-player">
+                    <button class="play" onclick="musicNotice()">▶</button>
+                    <span>♡</span>
+                </div>
+            </div>
 
         </div>
 
-    </section>
+        <button class="primary next" onclick="showScreen('messages')">
+            дальше →
+        </button>
+
+    </div>
+</section>
 
 
-    <!-- =========================
-         04 — МЕЖДУ СООБЩЕНИЯМИ
-    ========================= -->
+<!-- ================= МЕЖДУ СООБЩЕНИЯМИ ================= -->
 
-    <section class="chapter">
+<section class="screen" id="messages">
+    <div class="container">
 
-        <div class="chapter-inner">
+        <div class="page-number">05</div>
 
-            <div class="chapter-number">04</div>
+        <h2>Между сообщениями</h2>
 
-            <h2 class="chapter-title">
-                Между сообщениями
-            </h2>
+        <p class="page-description">
+            Иногда самое интересное находится не в самих словах,
+            а где-то рядом с ними.
+        </p>
 
-            <div class="text">
+        <div class="chat-list">
 
-                <p>
-                    Некоторые разговоры заканчиваются,
-                    но почему-то не заканчиваются в голове.
-                </p>
 
-                <p>
-                    Остаются отдельные фразы.
-                    Шутки.
-                    Странные вопросы.
-                    Ответы, которые потом неожиданно вспоминаешь.
-                </p>
+            <div class="chat">
+
+                <div class="message me">
+                    бесишь меня,дурак.
+                </div>
+
+                <div class="message him">
+                    рад,что бешу)
+                </div>
+
+                <div class="message me">
+                    почему ты этому рад?
+                </div>
+
+                <div class="message him">
+                    люблю бесить
+                </div>
+
+                <div class="typing">
+                    А меня?
+                </div>
 
             </div>
+
 
             <div class="chat">
 
                 <div class="message him">
-                    Я тоже фембой если что
-                    <small>Мирослав</small>
-                </div>
-
-                <div class="message me">
-                    ...
-                    <small>Хомячок</small>
+                    не отвлекайся, я же понимаю и могу подождать
                 </div>
 
                 <div class="message him">
-                    Почему у тебя голос,
-                    будто ты какая-то взрослая женщина?
-                    <small>Мирослав</small>
+                    напишешь как освободишься
                 </div>
 
                 <div class="message me">
-                    Я просто сонная
-                    <small>Хомячок</small>
+                    хорошо
+                </div>
+
+                <div class="message me">
+                    спасибо за понимание,большое
                 </div>
 
                 <div class="message him">
-                    Я играл во взрослую игру,
-                    в роблокс
-                    <small>Мирослав</small>
+                    да ты чего дуреха, нашла за что спасибо говорить
+                </div>
+
+                <div class="message me">
+                    и я не дуреха
                 </div>
 
             </div>
 
-            <div class="quote">
-                И ведь были разговоры намного длиннее.
-                Но иногда пять слов запоминаются
-                лучше пяти часов.
+
+            <div class="chat">
+
+                <div class="message him">
+                    выздоравливай надоела
+                </div>
+
+                <div class="message me">
+                    хорошо,больше не буду болеть.
+                    щас щелкну пальцами и буду здорова
+                </div>
+
+                <div class="message him">
+                    не могла сразу так?
+                </div>
+
+                <div class="message him">
+                    лежит страдает
+                </div>
+
+                <div class="message him">
+                    глупышка
+                </div>
+
             </div>
 
-            <button class="next-button" onclick="goTo(4)">
-                ДАЛЬШЕ →
-            </button>
+
+            <div class="chat">
+
+                <div class="message me">
+                    вчера слишком много думала о тебе,
+                    потому сегодня мне решил мозг показать
+                    абсолютно не понятный для меня сон
+                </div>
+
+                <div class="message him">
+                    много думала обо мне)
+                </div>
+
+                <div class="message me">
+                    пришлось подумать о тебе и твоих загадках
+                </div>
+
+                <div class="thought">
+                    Я люблю,когда ты появляешься в моих мыслях
+                </div>
+
+            </div>
+
+
+            <div class="chat">
+
+                <div class="message him">
+                    10 грамм ярости
+                </div>
+
+                <div class="message me">
+                    я тебя придушу,я ради этого специально
+                    приеду,я тебе зуб даю
+                </div>
+
+                <div class="message him">
+                    минус зубик
+                </div>
+
+                <div class="message me">
+                    а ты не веришь,что я могу приехать?
+                </div>
+
+                <div class="message him">
+                    маловероятно
+                </div>
+
+                <div class="message me">
+                    дурак ты
+                </div>
+
+                <div class="message him">
+                    дурёха ты
+                </div>
+
+                <div class="message me">
+                    не,дурак сейчас ты,а не я дуреха
+                </div>
+
+                <div class="thought">
+                    Если бы ты знал,как мне хочется
+                    оказаться ближе к тебе
+                </div>
+
+            </div>
 
         </div>
 
-    </section>
+        <button class="primary next" onclick="showScreen('final')">
+            дальше →
+        </button>
 
+    </div>
+</section>
 
-    <!-- =========================
-         05 — ЗВУК
-    ========================= -->
 
-    <section class="chapter">
+<!-- ================= ФИНАЛ ================= -->
 
-        <div class="chapter-inner">
+<section class="screen center" id="final">
+    <div class="container" style="text-align:center">
 
-            <div class="chapter-number">05</div>
+        <div class="page-number">06</div>
 
-            <h2 class="chapter-title">
-                Звук
-            </h2>
+        <h2>...</h2>
 
-            <div class="text">
-
-                <p>
-                    Есть песни, которые сами по себе
-                    ничего для тебя не значили.
-                </p>
-
-                <p>
-                    А потом появляется человек —
-                    и внезапно одна мелодия начинает
-                    напоминать именно о нём.
-                </p>
-
-            </div>
-
-            <div class="music-list">
-
-                <!-- ПЕСНЯ 1 -->
-
-                <div class="song">
-
-                    <div class="song-top">
-
-                        <div>
-                            <div class="song-name">
-                                Хочу быть с ней и всё
-                            </div>
-
-                            <div class="artist">
-                                Урал Гайсин
-                            </div>
-                        </div>
-
-                        <button class="song-button">
-                            ▶
-                        </button>
-
-                    </div>
-
-                    <div class="song-description">
-                        Этот исполнитель стал ассоциироваться лишь с ним.
-                    </div>
-
-                </div>
-
-
-                <!-- ПЕСНЯ 2 -->
-
-                <div class="song">
-
-                    <div class="song-top">
-
-                        <div>
-                            <div class="song-name">
-                                Моя мини принцесса
-                            </div>
-
-                            <div class="artist">
-                                Урал Гайсин
-                            </div>
-                        </div>
-
-                        <button class="song-button">
-                            ▶
-                        </button>
-
-                    </div>
-
-                    <div class="song-description">
-                        Он узнал про странные ассоциации,
-                        и эта песня почему-то напоминала
-                        ей новогоднюю атмосферу.
-                    </div>
-
-                </div>
-
-
-                <!-- ПЕСНЯ 3 -->
-
-                <div class="song">
-
-                    <div class="song-top">
-
-                        <div>
-                            <div class="song-name">
-                                Позвони
-                            </div>
-
-                            <div class="artist">
-                                Оксана Почепа (Акула)
-                            </div>
-                        </div>
-
-                        <button class="song-button">
-                            ▶
-                        </button>
-
-                    </div>
-
-                    <div class="song-description">
-                        Он сказал, что с этой песней
-                        ассоциируется она.
-                        И она слушала её каждый следующий день.
-                    </div>
-
-                </div>
-
-
-                <!-- ПЕСНЯ 4 -->
-
-                <div class="song">
-
-                    <div class="song-top">
-
-                        <div>
-                            <div class="song-name">
-                                Я подарю
-                            </div>
-
-                            <div class="artist">
-                                Эндшпиль
-                            </div>
-                        </div>
-
-                        <button class="song-button">
-                            ▶
-                        </button>
-
-                    </div>
-
-                    <div class="song-description">
-                        У него было такое настроение.
-                        А она так и не поняла почему.
-                    </div>
-
-                </div>
-
-
-                <!-- ПЕСНЯ 5 -->
-
-                <div class="song">
-
-                    <div class="song-top">
-
-                        <div>
-                            <div class="song-name">
-                                Отказываю небу
-                            </div>
-
-                            <div class="artist">
-                                pyrokinesis
-                            </div>
-                        </div>
-
-                        <button class="song-button">
-                            ▶
-                        </button>
-
-                    </div>
-
-                    <div class="song-description">
-                        Эта песня каким-то образом
-                        свела их ближе.
-                    </div>
-
-                </div>
-
-
-                <!-- ПЕСНЯ 6 -->
-
-                <div class="song">
-
-                    <div class="song-top">
-
-                        <div>
-                            <div class="song-name">
-                                Я тебя люблю
-                            </div>
-
-                            <div class="artist">
-                                Урал Гайсин
-                            </div>
-                        </div>
-
-                        <button class="song-button">
-                            ▶
-                        </button>
-
-                    </div>
-
-                    <div class="song-description">
-                        После неё мысли о нём
-                        стали совсем другими.
-                    </div>
-
-                </div>
-
-
-                <!-- ПЕСНЯ 7 -->
-
-                <div class="song">
-
-                    <div class="song-top">
-
-                        <div>
-                            <div class="song-name">
-                                Дома
-                            </div>
-
-                            <div class="artist">
-                                LUCAVEROS
-                            </div>
-                        </div>
-
-                        <button class="song-button">
-                            ▶
-                        </button>
-
-                    </div>
-
-                    <div class="song-description">
-                        Песня, которая стала ассоциироваться
-                        с ним тогда, когда он стал ближе.
-                    </div>
-
-                </div>
-
-            </div>
-
-            <button class="next-button" onclick="goTo(5)">
-                ДАЛЬШЕ →
-            </button>
-
+        <div
+            class="final-star"
+            onclick="revealFinal()"
+        >
+            ✦
         </div>
 
-    </section>
+        <p id="starText" class="subtitle">
+            нажми на звезду
+        </p>
 
+        <div id="cipherArea" style="display:none">
 
-    <!-- =========================
-         06 — МАЛЕНЬКИЕ ВЕЩИ
-    ========================= -->
-
-    <section class="chapter">
-
-        <div class="chapter-inner">
-
-            <div class="chapter-number">06</div>
-
-            <h2 class="chapter-title">
-                Маленькие вещи
-            </h2>
-
-            <div class="text">
-
-                <p>
-                    Наверное, самое странное —
-                    это то, сколько совершенно обычных
-                    вещей вдруг становятся воспоминаниями.
-                </p>
-
-                <p>
-                    Скриншот.
-                    Сообщение.
-                    Игра.
-                    Табличка.
-                    Фраза, которую можно было бы забыть.
-                </p>
-
-                <p>
-                    Но почему-то не забыла.
-                </p>
-
-            </div>
-
-            <div class="gallery">
-
-                <div class="photo-placeholder">
-                    Здесь будет скриншот из вашей игры
-                </div>
-
-                <div class="photo-placeholder">
-                    Здесь будет фотография / скриншот
-                </div>
-
-                <div class="photo-placeholder">
-                    Здесь будет ваша табличка
-                </div>
-
-                <div class="photo-placeholder">
-                    Здесь будет ещё один момент
-                </div>
-
-            </div>
-
-            <button class="next-button" onclick="goTo(6)">
-                ДАЛЬШЕ →
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         07 — ТО, ЧТО ИЗМЕНИЛОСЬ
-    ========================= -->
-
-    <section class="chapter">
-
-        <div class="chapter-inner">
-
-            <div class="chapter-number">07</div>
-
-            <h2 class="chapter-title">
-                То, что изменилось
-            </h2>
-
-            <div class="text">
-
-                <p>
-                    Сначала ты был просто человеком,
-                    с которым было интересно говорить.
-                </p>
-
-                <p>
-                    Потом человеком, которому хотелось написать.
-                </p>
-
-                <p>
-                    Потом человеком, которому хотелось
-                    рассказывать больше.
-                </p>
-
-                <p>
-                    А потом я заметила,
-                    что некоторые вещи я уже мысленно
-                    хочу рассказать именно тебе.
-                </p>
-
-                <div class="quote">
-                    Наверное, именно так человек
-                    и становится важным.
-                    Не в один конкретный момент,
-                    а постепенно.
-                </div>
-
-                <p>
-                    И, наверное, поэтому этот сайт существует.
-                </p>
-
-            </div>
-
-            <button class="next-button" onclick="goTo(7)">
-                ДАЛЬШЕ →
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         08 — МЕЖДУ СТРОК
-    ========================= -->
-
-    <section class="chapter final-page">
-
-        <div class="chapter-inner">
-
-            <div class="chapter-number">08</div>
-
-            <h2 class="chapter-title">
-                Между строк
-            </h2>
-
-            <div class="text" style="margin:auto;">
-
-                <p>
-                    Я могла бы написать здесь всё прямо.
-                </p>
-
-                <p>
-                    Сказать всё одним предложением.
-                    Объяснить каждую мысль.
-                    Подписать каждое воспоминание.
-                </p>
-
-                <p>
-                    Но тогда тебе не пришлось бы
-                    читать между строк.
-                </p>
-
-            </div>
-
-            <div class="final-question">
-                Что между строк?
-            </div>
-
-            <div
-                class="secret-star"
-                onclick="showSecret()"
-                title="..."
-            ></div>
-
-            <div
-                id="secret-message"
-                class="secret-message"
-            >
+            <p class="subtitle" style="margin-top:30px">
                 Ты всё-таки заметил.
+            </p>
+
+            <div class="cipher">
+
+                <div class="numbers">
+                    8 15 / 2 9 19 15 7 14 15 / 4 9 / 20 5
+                    <br>
+                    9 15 / 19 15 14 15 / 20 21 1
+                    <br>
+                    7 9 15 18 14 15 / 5 / 14 15 20 20 5
+                    <br>
+                    19 15 7 14 15 / 19 15 12 15 / 4 9 / 20 5
+                </div>
+
             </div>
 
-            <button
-                class="restart"
-                onclick="restartSite()"
+            <div class="hint">
+                <b>Алфавит.</b><br>
+                <b>Не русский.</b>
+            </div>
+
+            <input
+                id="cipherInput"
+                type="text"
+                placeholder="введи расшифрованную фразу..."
+                style="max-width:600px"
             >
-                ← НАЧАТЬ СНАЧАЛА
+
+            <br><br>
+
+            <button class="primary" onclick="checkCipher()">
+                проверить
             </button>
+
+            <div class="error" id="cipherError"></div>
+
+            <div class="reveal" id="reveal">
+
+                <div class="italian">
+                    Ho bisogno di te.<br>
+                    Io sono tua.<br>
+                    Giorno e notte sogno solo di te.
+                </div>
+
+                <div class="translation">
+                    <b>О бизоньо ди тэ</b><br>
+                    Я в тебе нуждаюсь.<br><br>
+
+                    <b>Ио сонно туа</b><br>
+                    Я твоя.<br><br>
+
+                    <b>Джёрно э ноттэ соньо соло ди тэ</b><br>
+                    Днём и ночью мечтаю лишь о тебе.
+                </div>
+
+                <br>
+
+                <p style="color:var(--accent)">
+                    Теперь ты знаешь, что было между строк.
+                </p>
+
+            </div>
 
         </div>
 
-    </section>
+    </div>
+</section>
 
-</main>
+
+<!-- ================= МОДАЛЬНЫЕ ОКНА ================= -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <h3 id="modalTitle"></h3>
+
+        <p id="modalText"></p>
+
+        <div id="modalChoices" class="choice"></div>
+
+        <button onclick="closeModal()" style="margin-top:18px">
+            закрыть
+        </button>
+
+    </div>
+
+</div>
 
 
 <script>
 
-/* =========================
-   СОЗДАНИЕ ЗВЁЗД
-========================= */
+/* ---------- ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ ---------- */
 
-const stars = document.getElementById("stars");
+function showScreen(id) {
 
-for (let i = 0; i < 120; i++) {
+    document.querySelectorAll('.screen')
+        .forEach(screen => screen.classList.remove('active'));
 
-    const star = document.createElement("div");
-
-    star.className = "star";
-
-    star.style.left = Math.random() * 100 + "%";
-    star.style.top = Math.random() * 100 + "%";
-
-    star.style.animationDelay =
-        Math.random() * 4 + "s";
-
-    star.style.animationDuration =
-        (2 + Math.random() * 5) + "s";
-
-    stars.appendChild(star);
-}
-
-
-/* =========================
-   ПЕРЕХОД ОТ ЗАСТАВКИ
-========================= */
-
-setTimeout(() => {
-
-    const intro = document.getElementById("intro");
-
-    intro.classList.add("fade-out");
-
-    setTimeout(() => {
-
-        intro.style.display = "none";
-
-        document.getElementById("password-screen").style.display =
-            "flex";
-
-    }, 1400);
-
-}, 5200);
-
-
-/* =========================
-   ПАРОЛЬ
-========================= */
-
-function checkPassword() {
-
-    const input =
-        document.getElementById("answer");
-
-    const error =
-        document.getElementById("error");
-
-    const answer =
-        input.value.trim().toLowerCase();
-
-    if (answer === "аллерген") {
-
-        error.innerHTML = "";
-
-        document.getElementById("password-screen").style.display =
-            "none";
-
-        const site =
-            document.getElementById("site");
-
-        site.style.display = "block";
-
-        setTimeout(() => {
-            site.classList.add("visible");
-        }, 50);
-
-    } else {
-
-        error.innerHTML = `
-            <strong>Не совсем.</strong><br>
-            Подсказка: открой диалог в Telegram.<br>
-            <strong>24.08.2026 · 13:35</strong>
-        `;
-
-        input.value = "";
-
-    }
-}
-
-
-/* =========================
-   ПЕРЕХОД МЕЖДУ ГЛАВАМИ
-========================= */
-
-let currentChapter = 0;
-
-const chapters =
-    document.querySelectorAll(".chapter");
-
-const navButtons =
-    document.querySelectorAll(".nav-button");
-
-
-function goTo(number) {
-
-    if (number < 0 || number >= chapters.length) {
-        return;
-    }
-
-    chapters[currentChapter].classList.remove("active");
-    navButtons[currentChapter].classList.remove("active");
-
-    currentChapter = number;
-
-    chapters[currentChapter].classList.add("active");
-    navButtons[currentChapter].classList.add("active");
+    document.getElementById(id)
+        .classList.add('active');
 
     window.scrollTo({
         top: 0,
-        behavior: "smooth"
+        behavior: 'smooth'
     });
 }
 
 
-/* =========================
-   MINECRAFT
-========================= */
+/* ---------- ПАРОЛЬ ---------- */
 
-function showMinecraftNote(type) {
+function checkPassword() {
 
-    const note =
-        document.getElementById("minecraft-note");
+    const input = document
+        .getElementById('passwordInput')
+        .value
+        .trim()
+        .toLowerCase();
 
-    const title =
-        document.getElementById("minecraft-note-title");
+    const error = document
+        .getElementById('passwordError');
 
-    const text =
-        document.getElementById("minecraft-note-text");
+    if (input === 'аллерген') {
+
+        error.textContent = '';
+
+        showScreen('start');
+
+    } else {
+
+        error.textContent =
+            'Открой диалог в Telegram. 24.08.2026 · 13:35';
+
+    }
+}
 
 
-    if (type === "house") {
+/* ---------- МОДАЛКА ---------- */
 
-        title.innerText =
-            "Наш дом";
+function openModal(title, text, choices = []) {
 
-        text.innerText =
-            "Здесь позже будет настоящий рассказ о вашем доме в Minecraft: как ты его строила, как он потом украшался и почему этот маленький виртуальный дом стал отдельным воспоминанием.";
+    document.getElementById('modalTitle')
+        .textContent = title;
+
+    document.getElementById('modalText')
+        .textContent = text;
+
+    const container =
+        document.getElementById('modalChoices');
+
+    container.innerHTML = '';
+
+    choices.forEach(choice => {
+
+        const button = document.createElement('button');
+
+        button.textContent = choice.text;
+
+        button.onclick = () => {
+
+            if (choice.action) {
+                choice.action();
+            }
+
+            closeModal();
+        };
+
+        container.appendChild(button);
+
+    });
+
+    document.getElementById('modal')
+        .classList.add('show');
+}
+
+
+function closeModal() {
+
+    document.getElementById('modal')
+        .classList.remove('show');
+
+}
+
+
+/* ---------- ЛУНА ---------- */
+
+function openMoon() {
+
+    openModal(
+        'Луна',
+        'Луна сегодня красивая, правда?)',
+        [
+            {
+                text: 'настолько красивая, что умереть можно.',
+                action: () => {}
+            },
+            {
+                text: 'не знаю, не видел.',
+                action: () => {}
+            }
+        ]
+    );
+
+}
+
+
+/* ---------- ТАБЛИЧКИ ---------- */
+
+function openSign(number) {
+
+    if (number === 1) {
+
+        openModal(
+            'Табличка',
+            'этот мир создан пенсионером и ребенком.'
+        );
 
     }
 
+    if (number === 2) {
 
-    if (type === "sign") {
-
-        title.innerText =
-            "Таблички";
-
-        text.innerText =
-            "Здесь позже появятся ваши настоящие таблички, фразы и история каждого момента.";
+        openModal(
+            'Табличка',
+            'не забывай, Земля круглая.'
+        );
 
     }
 
+    if (number === 3) {
 
-    note.classList.add("show");
-}
+        openModal(
+            'Табличка',
+            'ты как погода перед грозой.\n\nпомню, ты это любишь, а я люблю….. в прочем, неважно, хотя важно'
+        );
 
-
-function closeMinecraftNote() {
-
-    document
-        .getElementById("minecraft-note")
-        .classList.remove("show");
+    }
 
 }
 
 
-/* =========================
-   СЕКРЕТНАЯ ПАСХАЛКА
-========================= */
+/* ---------- ФОНТАН ---------- */
 
-function showSecret() {
+function openFountain() {
 
-    document
-        .getElementById("secret-message")
-        .classList.add("show");
+    openModal(
+        'Фонтан',
+        'Ты его много раз переделывал, а я так и не могла понять зачем ты так стараешься сделать его лучше, когда он и так был прекрасным. Но ты сделал его таким уютным и красивым. Все к чему ты прикасаешься или берешься обретает свою уникальную красоту)'
+    );
 
 }
 
 
-/* =========================
-   НАЧАТЬ СНАЧАЛА
-========================= */
+/* ---------- МУЗЫКА ---------- */
 
-function restartSite() {
+function musicNotice() {
 
-    document.getElementById("site").style.display = "none";
+    openModal(
+        'Пока тишина',
+        'Здесь появится настоящая песня, когда мы добавим аудиофайл.'
+    );
 
-    document.getElementById("password-screen").style.display =
-        "flex";
+}
 
-    document.getElementById("answer").value = "";
 
-    document.getElementById("error").innerHTML = "";
+/* ---------- ФИНАЛ ---------- */
 
-    goTo(0);
+function revealFinal() {
+
+    document.getElementById('starText')
+        .textContent = 'Ты всё-таки заметил.';
+
+    document.getElementById('cipherArea')
+        .style.display = 'block';
+
+}
+
+
+/* ---------- ШИФР ---------- */
+
+/*
+   Проверяем три возможных ответа.
+   Пользователь может ввести любой из трёх предложений.
+*/
+
+function normalize(text) {
+
+    return text
+        .toLowerCase()
+        .replace(/[.!?,]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+}
+
+
+function checkCipher() {
+
+    const value = normalize(
+        document.getElementById('cipherInput').value
+    );
+
+    const answers = [
+
+        normalize('Ho bisogno di te'),
+
+        normalize('Io sono tua'),
+
+        normalize('Giorno e notte sogno solo di te')
+
+    ];
+
+    const error =
+        document.getElementById('cipherError');
+
+    const reveal =
+        document.getElementById('reveal');
+
+
+    if (answers.includes(value)) {
+
+        error.textContent = '';
+
+        reveal.classList.add('show');
+
+    } else {
+
+        reveal.classList.remove('show');
+
+        error.textContent =
+            'Почти. Попробуй ещё раз.';
+
+    }
 
 }
 
