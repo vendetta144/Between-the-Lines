@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Между строк</title>
 
 <style>
@@ -31,16 +32,25 @@ html {
 
 body {
     background:
-        radial-gradient(circle at 20% 20%, rgba(130,90,220,.13), transparent 30%),
-        radial-gradient(circle at 80% 70%, rgba(170,120,255,.08), transparent 30%),
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(130,90,220,.13),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(170,120,255,.08),
+            transparent 30%
+        ),
         var(--bg);
+
     color: var(--text);
     font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
 }
 
-/* ---------- ЗВЁЗДЫ ---------- */
+/* ================= ЗВЁЗДЫ ================= */
 
 .stars,
 .stars::before,
@@ -53,49 +63,89 @@ body {
 
 .stars {
     background-image:
-        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,.4) 1px, transparent 1px);
-    background-size: 120px 120px, 190px 190px;
-    background-position: 20px 30px, 70px 100px;
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.8) 1px,
+            transparent 1px
+        ),
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.4) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        120px 120px,
+        190px 190px;
+
+    background-position:
+        20px 30px,
+        70px 100px;
+
     opacity: .35;
 }
 
 .stars::before {
     content: "";
-    background-image: radial-gradient(circle, white 1px, transparent 1px);
+
+    background-image:
+        radial-gradient(
+            circle,
+            white 1px,
+            transparent 1px
+        );
+
     background-size: 230px 230px;
+
     animation: drift 35s linear infinite;
+
     opacity: .25;
 }
 
 @keyframes drift {
-    from { transform: translateY(0); }
-    to { transform: translateY(-230px); }
+
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-230px);
+    }
+
 }
 
-/* ---------- ОБЩЕЕ ---------- */
+/* ================= ОБЩЕЕ ================= */
 
 .screen {
     min-height: 100vh;
+
     display: none;
-    padding: 35px 18px;
-    animation: fade .8s ease;
+
+    padding:
+        35px 18px;
+
+    animation:
+        fade .8s ease;
 }
 
 .screen.active {
     display: flex;
+
     flex-direction: column;
 }
 
 @keyframes fade {
+
     from {
         opacity: 0;
         transform: translateY(15px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
+
 }
 
 .container {
@@ -106,12 +156,17 @@ body {
 h1,
 h2,
 h3 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family:
+        'Cormorant Garamond',
+        serif;
+
     font-weight: 500;
 }
 
 h2 {
-    font-size: clamp(36px, 8vw, 62px);
+    font-size:
+        clamp(36px, 8vw, 62px);
+
     margin-bottom: 10px;
 }
 
@@ -122,33 +177,56 @@ h2 {
 
 button {
     border: 1px solid var(--border);
-    background: rgba(255,255,255,.06);
+
+    background:
+        rgba(255,255,255,.06);
+
     color: var(--text);
-    padding: 13px 22px;
+
+    padding:
+        13px 22px;
+
     border-radius: 30px;
+
     cursor: pointer;
+
     font-family: inherit;
+
     transition: .3s;
 }
 
 button:hover {
-    background: rgba(185,156,255,.15);
-    border-color: rgba(185,156,255,.5);
-    transform: translateY(-2px);
+    background:
+        rgba(185,156,255,.15);
+
+    border-color:
+        rgba(185,156,255,.5);
+
+    transform:
+        translateY(-2px);
 }
 
 .primary {
-    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent2),
+            var(--accent)
+        );
+
     color: #fff;
+
     border: none;
 }
 
 .next {
     display: block;
-    margin: 35px auto 0;
+
+    margin:
+        35px auto 0;
 }
 
-/* ---------- ВСТУПЛЕНИЕ ---------- */
+/* ================= ВСТУПЛЕНИЕ ================= */
 
 #intro {
     justify-content: center;
@@ -157,137 +235,254 @@ button:hover {
 }
 
 .intro-title {
-    font-size: clamp(60px, 16vw, 125px);
+
+    font-size:
+        clamp(60px, 16vw, 125px);
+
     letter-spacing: 3px;
+
     line-height: .85;
-    animation: titleAppear 2s ease;
+
+    animation:
+        titleAppear 2s ease;
 }
 
 .intro-subtitle {
+
     margin-top: 25px;
+
     color: var(--muted);
+
     font-size: 13px;
+
     letter-spacing: 2px;
+
     text-transform: uppercase;
-    animation: fade 2s ease .5s both;
+
+    animation:
+        fade 2s ease .5s both;
 }
 
 .intro-line {
+
     width: 70px;
+
     height: 1px;
-    background: var(--accent);
-    margin: 35px auto;
+
+    background:
+        var(--accent);
+
+    margin:
+        35px auto;
+
     opacity: .7;
 }
 
 @keyframes titleAppear {
+
     from {
         opacity: 0;
+
         letter-spacing: 15px;
+
         filter: blur(8px);
     }
+
     to {
         opacity: 1;
+
         letter-spacing: 3px;
+
         filter: blur(0);
     }
+
 }
 
-/* ---------- ПАРОЛЬ ---------- */
+/* ================= ПАРОЛЬ ================= */
 
 .center {
     justify-content: center;
 }
 
 .riddle {
+
     max-width: 650px;
-    margin: 25px auto;
-    padding: 28px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    line-height: 1.9;
-    color: #d8d2e3;
+
+    margin:
+        25px auto;
+
+    padding:
+        28px;
+
+    background:
+        var(--card);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        22px;
+
+    line-height:
+        1.9;
+
+    color:
+        #d8d2e3;
 }
 
 .input-wrap {
+
     display: flex;
+
     gap: 10px;
+
     max-width: 480px;
-    margin: 20px auto;
+
+    margin:
+        20px auto;
 }
 
 input {
+
     width: 100%;
-    background: rgba(255,255,255,.055);
+
+    background:
+        rgba(255,255,255,.055);
+
     color: white;
-    border: 1px solid var(--border);
-    border-radius: 30px;
-    padding: 14px 18px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        30px;
+
+    padding:
+        14px 18px;
+
     outline: none;
+
     font-family: inherit;
 }
 
 input:focus {
-    border-color: var(--accent);
+
+    border-color:
+        var(--accent);
 }
 
 .error {
-    color: #c8bde0;
-    min-height: 25px;
-    margin-top: 10px;
+
+    color:
+        #c8bde0;
+
+    min-height:
+        25px;
+
+    margin-top:
+        10px;
 }
 
-/* ---------- ЗАГОЛОВОК СТРАНИЦ ---------- */
+/* ================= ЗАГОЛОВКИ ================= */
 
 .page-number {
-    color: var(--accent);
-    font-size: 12px;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
+
+    color:
+        var(--accent);
+
+    font-size:
+        12px;
+
+    letter-spacing:
+        3px;
+
+    margin-bottom:
+        10px;
 }
 
 .page-description {
-    max-width: 650px;
-    line-height: 1.8;
-    color: var(--muted);
+
+    max-width:
+        650px;
+
+    line-height:
+        1.8;
+
+    color:
+        var(--muted);
 }
 
-/* ---------- ПЕРВАЯ ВСТРЕЧА ---------- */
+/* ================= ПЕРВАЯ ВСТРЕЧА ================= */
 
 .memory-card {
-    margin-top: 35px;
-    padding: 35px 28px;
-    border-left: 2px solid var(--accent);
-    background: linear-gradient(
-        90deg,
-        rgba(185,156,255,.07),
-        transparent
-    );
+
+    margin-top:
+        35px;
+
+    padding:
+        35px 28px;
+
+    border-left:
+        2px solid var(--accent);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(185,156,255,.07),
+            transparent
+        );
 }
 
 .date {
-    font-size: 14px;
-    color: var(--accent);
-    letter-spacing: 2px;
-    margin-bottom: 20px;
+
+    font-size:
+        14px;
+
+    color:
+        var(--accent);
+
+    letter-spacing:
+        2px;
+
+    margin-bottom:
+        20px;
 }
 
 .memory-card p {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
-    line-height: 1.6;
+
+    font-family:
+        'Cormorant Garamond',
+        serif;
+
+    font-size:
+        24px;
+
+    line-height:
+        1.6;
 }
 
-/* ---------- MINECRAFT ---------- */
+/* ================= MINECRAFT ================= */
 
 .minecraft {
-    margin-top: 35px;
-    min-height: 470px;
-    border-radius: 24px;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,.1);
+
+    margin-top:
+        35px;
+
+    min-height:
+        470px;
+
+    border-radius:
+        24px;
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
     background:
         linear-gradient(
             to bottom,
@@ -299,385 +494,1039 @@ input:focus {
 }
 
 .moon {
-    position: absolute;
-    right: 35px;
-    top: 30px;
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    background: #e8e5c9;
-    box-shadow: 0 0 35px rgba(240,235,180,.35);
-    cursor: pointer;
-    transition: .3s;
+
+    position:
+        absolute;
+
+    right:
+        35px;
+
+    top:
+        30px;
+
+    width:
+        65px;
+
+    height:
+        65px;
+
+    border-radius:
+        50%;
+
+    background:
+        #e8e5c9;
+
+    box-shadow:
+        0 0 35px rgba(240,235,180,.35);
+
+    cursor:
+        pointer;
+
+    transition:
+        .3s;
 }
 
 .moon:hover {
-    transform: scale(1.08);
+
+    transform:
+        scale(1.08);
 }
 
 .ground {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 48%;
+
+    position:
+        absolute;
+
+    bottom:
+        0;
+
+    width:
+        100%;
+
+    height:
+        48%;
+
     background:
-        linear-gradient(90deg,
-        transparent 0 8%,
-        rgba(0,0,0,.15) 8% 10%,
-        transparent 10% 20%);
-    background-color: #20231e;
+        linear-gradient(
+            90deg,
+            transparent 0 8%,
+            rgba(0,0,0,.15) 8% 10%,
+            transparent 10% 20%
+        );
+
+    background-color:
+        #20231e;
 }
 
+/* дом */
+
 .house {
-    position: absolute;
-    width: 180px;
-    height: 125px;
-    left: 50%;
-    bottom: 125px;
-    transform: translateX(-50%);
-    background: #795548;
-    border: 5px solid #3d2b25;
+
+    position:
+        absolute;
+
+    width:
+        180px;
+
+    height:
+        125px;
+
+    left:
+        50%;
+
+    bottom:
+        125px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        #795548;
+
+    border:
+        5px solid #3d2b25;
 }
 
 .house::before {
-    content: "";
-    position: absolute;
-    width: 210px;
-    height: 80px;
-    left: -20px;
-    top: -60px;
-    background: #3d2b25;
-    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        210px;
+
+    height:
+        80px;
+
+    left:
+        -20px;
+
+    top:
+        -60px;
+
+    background:
+        #3d2b25;
+
+    clip-path:
+        polygon(
+            50% 0,
+            100% 100%,
+            0 100%
+        );
 }
 
 .door {
-    position: absolute;
-    width: 35px;
-    height: 65px;
-    bottom: 0;
-    left: 72px;
-    background: #4a3026;
+
+    position:
+        absolute;
+
+    width:
+        35px;
+
+    height:
+        65px;
+
+    bottom:
+        0;
+
+    left:
+        72px;
+
+    background:
+        #4a3026;
 }
 
 .window {
-    position: absolute;
-    width: 38px;
-    height: 38px;
-    background: #9fd4d8;
-    border: 4px solid #3d2b25;
-    top: 35px;
+
+    position:
+        absolute;
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    background:
+        #9fd4d8;
+
+    border:
+        4px solid #3d2b25;
+
+    top:
+        35px;
 }
 
 .window.left {
-    left: 15px;
+    left:
+        15px;
 }
 
 .window.right {
-    right: 15px;
+    right:
+        15px;
 }
 
+/* таблички */
+
 .sign {
-    position: absolute;
-    width: 125px;
-    min-height: 48px;
-    background: #a87b4d;
-    color: #24170e;
-    border: 3px solid #624326;
-    padding: 7px;
-    font-size: 9px;
-    text-align: center;
-    cursor: pointer;
-    transition: .3s;
+
+    position:
+        absolute;
+
+    width:
+        125px;
+
+    min-height:
+        48px;
+
+    background:
+        #a87b4d;
+
+    color:
+        #24170e;
+
+    border:
+        3px solid #624326;
+
+    padding:
+        7px;
+
+    font-size:
+        9px;
+
+    text-align:
+        center;
+
+    cursor:
+        pointer;
+
+    transition:
+        .3s;
 }
 
 .sign:hover {
-    transform: translateY(-5px);
+
+    transform:
+        translateY(-5px);
 }
 
 .sign.one {
-    left: 8%;
-    bottom: 75px;
+
+    left:
+        8%;
+
+    bottom:
+        75px;
 }
 
 .sign.two {
-    right: 7%;
-    bottom: 190px;
+
+    right:
+        7%;
+
+    bottom:
+        190px;
 }
 
 .sign.three {
-    right: 10%;
-    bottom: 65px;
+
+    right:
+        10%;
+
+    bottom:
+        65px;
 }
 
+/* фонтан */
+
 .fountain {
-    position: absolute;
-    left: 13%;
-    bottom: 185px;
-    width: 80px;
-    height: 55px;
-    background: #777;
-    border: 5px solid #444;
-    cursor: pointer;
+
+    position:
+        absolute;
+
+    left:
+        13%;
+
+    bottom:
+        185px;
+
+    width:
+        80px;
+
+    height:
+        55px;
+
+    background:
+        #777;
+
+    border:
+        5px solid #444;
+
+    cursor:
+        pointer;
 }
 
 .fountain::before {
-    content: "";
-    position: absolute;
-    width: 30px;
-    height: 55px;
-    left: 20px;
-    top: -35px;
-    background: #888;
-    border: 4px solid #444;
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        30px;
+
+    height:
+        55px;
+
+    left:
+        20px;
+
+    top:
+        -35px;
+
+    background:
+        #888;
+
+    border:
+        4px solid #444;
 }
 
 .mc-note {
-    position: absolute;
-    left: 50%;
-    bottom: 20px;
-    transform: translateX(-50%);
-    color: #aaa;
-    font-size: 11px;
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    bottom:
+        20px;
+
+    transform:
+        translateX(-50%);
+
+    color:
+        #aaa;
+
+    font-size:
+        11px;
 }
 
-/* ---------- МОДАЛКА ---------- */
+/* ================= МОДАЛЬНОЕ ОКНО ================= */
 
 .modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.75);
-    backdrop-filter: blur(8px);
-    z-index: 20;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+
+    display:
+        none;
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    background:
+        rgba(0,0,0,.75);
+
+    backdrop-filter:
+        blur(8px);
+
+    z-index:
+        20;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        20px;
 }
 
 .modal.show {
-    display: flex;
+
+    display:
+        flex;
 }
 
 .modal-box {
-    max-width: 520px;
-    width: 100%;
-    background: #15131d;
-    border: 1px solid var(--border);
-    border-radius: 25px;
-    padding: 30px;
-    text-align: center;
-    animation: fade .4s ease;
+
+    max-width:
+        520px;
+
+    width:
+        100%;
+
+    background:
+        #15131d;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        25px;
+
+    padding:
+        30px;
+
+    text-align:
+        center;
+
+    animation:
+        fade .4s ease;
 }
 
 .modal-box p {
-    line-height: 1.8;
-    color: #d9d2e5;
-    margin: 18px 0;
+
+    white-space:
+        pre-line;
+
+    line-height:
+        1.8;
+
+    color:
+        #d9d2e5;
+
+    margin:
+        18px 0;
 }
 
 .choice {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        10px;
 }
 
-/* ---------- МУЗЫКА ---------- */
+/* ================= МУЗЫКА ================= */
 
 .music-list {
-    margin-top: 30px;
-    display: grid;
-    gap: 14px;
+
+    margin-top:
+        30px;
+
+    display:
+        grid;
+
+    gap:
+        14px;
 }
 
 .song {
-    padding: 20px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    background: var(--card);
+
+    padding:
+        20px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        20px;
+
+    background:
+        var(--card);
 }
 
 .song-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 23px;
+
+    font-family:
+        'Cormorant Garamond',
+        serif;
+
+    font-size:
+        23px;
 }
 
 .song-artist {
-    font-size: 11px;
-    color: var(--accent);
-    margin-top: 4px;
+
+    font-size:
+        11px;
+
+    color:
+        var(--accent);
+
+    margin-top:
+        4px;
 }
 
 .song-note {
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.6;
-    margin-top: 12px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.6;
+
+    margin-top:
+        12px;
 }
 
 .fake-player {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 15px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    margin-top:
+        15px;
 }
 
 .play {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border-radius: 50%;
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    padding:
+        0;
+
+    border-radius:
+        50%;
 }
 
-/* ---------- СООБЩЕНИЯ ---------- */
+/* ================= СООБЩЕНИЯ ================= */
 
 .chat-list {
-    margin-top: 30px;
-    display: grid;
-    gap: 30px;
+
+    margin-top:
+        30px;
+
+    display:
+        grid;
+
+    gap:
+        30px;
 }
 
 .chat {
-    background: rgba(255,255,255,.035);
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 20px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        22px;
+
+    padding:
+        20px;
 }
 
 .message {
-    max-width: 82%;
-    padding: 11px 15px;
-    border-radius: 17px;
-    margin: 7px 0;
-    font-size: 13px;
-    line-height: 1.5;
+
+    max-width:
+        82%;
+
+    padding:
+        11px 15px;
+
+    border-radius:
+        17px;
+
+    margin:
+        7px 0;
+
+    font-size:
+        13px;
+
+    line-height:
+        1.5;
 }
 
 .me {
-    margin-left: auto;
-    background: rgba(185,156,255,.16);
+
+    margin-left:
+        auto;
+
+    background:
+        rgba(185,156,255,.16);
 }
 
 .him {
-    background: rgba(255,255,255,.07);
+
+    background:
+        rgba(255,255,255,.07);
 }
 
 .thought {
-    margin-top: 16px;
-    text-align: center;
-    color: var(--accent);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 21px;
-    opacity: .9;
+
+    margin-top:
+        16px;
+
+    text-align:
+        center;
+
+    color:
+        var(--accent);
+
+    font-family:
+        'Cormorant Garamond',
+        serif;
+
+    font-size:
+        21px;
+
+    opacity:
+        .9;
 }
 
 .typing {
-    color: #8f899b;
-    font-size: 11px;
-    margin-top: 12px;
+
+    color:
+        #8f899b;
+
+    font-size:
+        11px;
+
+    margin-top:
+        12px;
 }
 
-/* ---------- ФИНАЛ ---------- */
+/* ================= ФИНАЛ ================= */
 
 .final-star {
-    font-size: 70px;
-    cursor: pointer;
-    text-align: center;
-    margin: 30px 0;
-    animation: pulse 2s infinite;
+
+    font-size:
+        32px;
+
+    cursor:
+        pointer;
+
+    text-align:
+        center;
+
+    margin:
+        25px 0;
+
+    animation:
+        pulse 2s infinite;
 }
 
 @keyframes pulse {
+
     50% {
-        transform: scale(1.08);
-        filter: drop-shadow(0 0 15px rgba(185,156,255,.7));
+
+        transform:
+            scale(1.08);
+
+        filter:
+            drop-shadow(
+                0 0 15px
+                rgba(185,156,255,.7)
+            );
     }
+
 }
 
 .cipher {
-    margin: 30px auto;
-    padding: 25px;
-    max-width: 700px;
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    background: var(--card);
-    overflow-x: auto;
+
+    margin:
+        30px auto;
+
+    padding:
+        25px;
+
+    max-width:
+        700px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        22px;
+
+    background:
+        var(--card);
+
+    overflow-x:
+        auto;
 }
 
 .numbers {
-    font-family: monospace;
-    line-height: 2;
-    letter-spacing: 3px;
-    color: var(--accent);
-    word-break: break-word;
+
+    font-family:
+        monospace;
+
+    line-height:
+        2;
+
+    letter-spacing:
+        3px;
+
+    color:
+        var(--accent);
+
+    word-break:
+        break-word;
 }
 
 .hint {
-    text-align: center;
-    color: var(--muted);
-    line-height: 1.8;
-    margin: 20px 0;
+
+    text-align:
+        center;
+
+    color:
+        var(--muted);
+
+    line-height:
+        1.8;
+
+    margin:
+        20px 0;
+}
+
+.hint-button {
+
+    margin-top:
+        15px;
+
+    font-size:
+        11px;
+
+    padding:
+        9px 16px;
+}
+
+.italian-hint {
+
+    max-height:
+        0;
+
+    opacity:
+        0;
+
+    overflow:
+        hidden;
+
+    transition:
+        .6s ease;
+
+    margin-top:
+        12px;
+}
+
+.italian-hint.show {
+
+    max-height:
+        100px;
+
+    opacity:
+        1;
+}
+
+.italian-hint span {
+
+    color:
+        var(--accent);
 }
 
 .reveal {
-    display: none;
-    margin-top: 25px;
-    padding: 25px;
-    border-radius: 20px;
-    background: rgba(185,156,255,.08);
-    border: 1px solid rgba(185,156,255,.2);
-    text-align: center;
+
+    display:
+        none;
+
+    margin-top:
+        25px;
+
+    padding:
+        25px;
+
+    border-radius:
+        20px;
+
+    background:
+        rgba(185,156,255,.08);
+
+    border:
+        1px solid
+        rgba(185,156,255,.2);
+
+    text-align:
+        center;
 }
 
 .reveal.show {
-    display: block;
-    animation: fade .8s ease;
+
+    display:
+        block;
+
+    animation:
+        fade .8s ease;
 }
 
 .italian {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 27px;
-    margin-bottom: 20px;
+
+    font-family:
+        'Cormorant Garamond',
+        serif;
+
+    font-size:
+        27px;
+
+    margin-bottom:
+        20px;
 }
 
 .translation {
-    color: var(--muted);
-    line-height: 1.8;
+
+    color:
+        var(--muted);
+
+    line-height:
+        1.8;
 }
 
+/* ================= СВЕТЛЯЧКИ ================= */
+
+#fireflies {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    pointer-events:
+        none;
+
+    z-index:
+        100;
+
+    overflow:
+        hidden;
+}
+
+.firefly {
+
+    position:
+        absolute;
+
+    width:
+        5px;
+
+    height:
+        5px;
+
+    border-radius:
+        50%;
+
+    background:
+        #fff4a8;
+
+    box-shadow:
+        0 0 7px #fff4a8,
+        0 0 16px rgba(255,244,168,.8);
+
+    animation:
+        fireflyFloat
+        ease-in-out
+        infinite;
+
+    opacity:
+        0;
+}
+
+@keyframes fireflyFloat {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            translate(0, 20px);
+    }
+
+    20% {
+
+        opacity:
+            1;
+    }
+
+    50% {
+
+        opacity:
+            .35;
+
+        transform:
+            translate(25px, -35px);
+    }
+
+    75% {
+
+        opacity:
+            1;
+
+        transform:
+            translate(-20px, -60px);
+    }
+
+    100% {
+
+        opacity:
+            0;
+
+        transform:
+            translate(10px, -100px);
+    }
+}
+
+/* ================= ТЁМНЫЙ ФИНАЛ ================= */
+
+#darkEnding {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        200;
+
+    background:
+        #000;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    text-align:
+        center;
+
+    padding:
+        30px;
+
+    animation:
+        darkAppear 2s ease forwards;
+}
+
+.darkEndingContent {
+
+    max-width:
+        500px;
+}
+
+.darkEndingText {
+
+    font-family:
+        'Cormorant Garamond',
+        serif;
+
+    font-size:
+        clamp(
+            27px,
+            7vw,
+            44px
+        );
+
+    line-height:
+        1.35;
+
+    margin-bottom:
+        35px;
+}
+
+@keyframes darkAppear {
+
+    from {
+        opacity:
+            0;
+    }
+
+    to {
+        opacity:
+            1;
+    }
+
+}
+
+/* ================= МОБИЛЬНАЯ ВЕРСИЯ ================= */
+
 @media (max-width: 600px) {
+
     .input-wrap {
-        flex-direction: column;
+
+        flex-direction:
+            column;
     }
 
     .memory-card p {
-        font-size: 21px;
+
+        font-size:
+            21px;
     }
 
     .minecraft {
-        min-height: 420px;
+
+        min-height:
+            420px;
     }
 
     .sign {
-        width: 100px;
-        font-size: 8px;
+
+        width:
+            100px;
+
+        font-size:
+            8px;
     }
 
     .sign.one {
-        left: 3%;
+
+        left:
+            3%;
     }
 
     .sign.two {
-        right: 2%;
-        bottom: 175px;
+
+        right:
+            2%;
+
+        bottom:
+            175px;
     }
 
     .sign.three {
-        right: 4%;
+
+        right:
+            4%;
     }
 
     .fountain {
-        left: 5%;
+
+        left:
+            5%;
     }
+
 }
 </style>
 </head>
@@ -686,11 +1535,21 @@ input:focus {
 
 <div class="stars"></div>
 
-<!-- ================= ВСТУПЛЕНИЕ ================= -->
 
-<section class="screen active" id="intro">
+<!-- ================================================= -->
+<!-- ВСТУПЛЕНИЕ -->
+<!-- ================================================= -->
+
+<section
+    class="screen active"
+    id="intro"
+>
+
     <div class="container">
-        <h1 class="intro-title">Между строк</h1>
+
+        <h1 class="intro-title">
+            Между строк
+        </h1>
 
         <div class="intro-line"></div>
 
@@ -698,63 +1557,106 @@ input:focus {
             Сайт для динозавра. От хомячка.
         </p>
 
-        <button class="primary next" onclick="showScreen('password')">
+        <button
+            class="primary next"
+            onclick="showScreen('password')"
+        >
             войти
         </button>
+
     </div>
+
 </section>
 
 
-<!-- ================= ПАРОЛЬ ================= -->
+<!-- ================================================= -->
+<!-- ПАРОЛЬ -->
+<!-- ================================================= -->
 
-<section class="screen center" id="password">
-    <div class="container" style="text-align:center">
+<section
+    class="screen center"
+    id="password"
+>
 
-        <div class="page-number">01</div>
+    <div
+        class="container"
+        style="text-align:center"
+    >
 
-        <h2>Небольшая загадка</h2>
+        <div class="page-number">
+            01
+        </div>
+
+        <h2>
+            Небольшая загадка
+        </h2>
 
         <div class="riddle">
-            Иногда организм реагирует на то, чего совсем не просил.
+
+            Иногда организм реагирует на то,
+            чего совсем не просил.
             Иногда причина оказывается совершенно неожиданной.
-            А иногда один человек сам заявляет, что именно он
-            вызвал такую реакцию.
+            А иногда один человек сам заявляет,
+            что именно он вызвал такую реакцию.
 
             <br><br>
 
             <b>Что это?</b>
+
         </div>
 
         <div class="input-wrap">
+
             <input
                 id="passwordInput"
                 type="text"
                 placeholder="введи ответ..."
                 autocomplete="off"
             >
-            <button class="primary" onclick="checkPassword()">
+
+            <button
+                class="primary"
+                onclick="checkPassword()"
+            >
                 открыть
             </button>
+
         </div>
 
-        <div class="error" id="passwordError"></div>
+        <div
+            class="error"
+            id="passwordError"
+        ></div>
 
     </div>
+
 </section>
 
 
-<!-- ================= С ЧЕГО ВСЁ НАЧАЛОСЬ ================= -->
+<!-- ================================================= -->
+<!-- С ЧЕГО ВСЁ НАЧАЛОСЬ -->
+<!-- ================================================= -->
 
-<section class="screen" id="start">
+<section
+    class="screen"
+    id="start"
+>
+
     <div class="container">
 
-        <div class="page-number">02</div>
+        <div class="page-number">
+            02
+        </div>
 
-        <h2>С чего всё началось</h2>
+        <h2>
+            С чего всё началось
+        </h2>
 
         <div class="memory-card">
 
-            <div class="date">20.08.2026</div>
+            <div class="date">
+                20.08.2026
+            </div>
 
             <p>
                 Всё началось с самого обычного разговора
@@ -768,22 +1670,36 @@ input:focus {
 
         </div>
 
-        <button class="primary next" onclick="showScreen('world')">
+        <button
+            class="primary next"
+            onclick="showScreen('world')"
+        >
             дальше →
         </button>
 
     </div>
+
 </section>
 
 
-<!-- ================= НАШ МИР ================= -->
+<!-- ================================================= -->
+<!-- НАШ МИР -->
+<!-- ================================================= -->
 
-<section class="screen" id="world">
+<section
+    class="screen"
+    id="world"
+>
+
     <div class="container">
 
-        <div class="page-number">03</div>
+        <div class="page-number">
+            03
+        </div>
 
-        <h2>Наш мир</h2>
+        <h2>
+            Наш мир
+        </h2>
 
         <p class="page-description">
             Маленький мир, который остался где-то между
@@ -792,15 +1708,31 @@ input:focus {
 
         <div class="minecraft">
 
-            <div class="moon" onclick="openMoon()"></div>
+            <!-- ЛУНА -->
+
+            <div
+                class="moon"
+                onclick="openMoon()"
+            ></div>
+
 
             <div class="ground"></div>
 
+
+            <!-- ДОМ -->
+
             <div class="house">
+
                 <div class="window left"></div>
+
                 <div class="window right"></div>
+
                 <div class="door"></div>
+
             </div>
+
+
+            <!-- ТАБЛИЧКА 1 -->
 
             <div
                 class="sign one"
@@ -810,6 +1742,9 @@ input:focus {
                 пенсионером и ребенком.
             </div>
 
+
+            <!-- ТАБЛИЧКА 2 -->
+
             <div
                 class="sign two"
                 onclick="openSign(2)"
@@ -817,6 +1752,9 @@ input:focus {
                 не забывай,
                 Земля круглая.
             </div>
+
+
+            <!-- ТАБЛИЧКА 3 -->
 
             <div
                 class="sign three"
@@ -826,10 +1764,14 @@ input:focus {
                 перед грозой.
             </div>
 
+
+            <!-- ФОНТАН -->
+
             <div
                 class="fountain"
                 onclick="openFountain()"
             ></div>
+
 
             <div class="mc-note">
                 нажми на предметы
@@ -837,199 +1779,340 @@ input:focus {
 
         </div>
 
-        <button class="primary next" onclick="showScreen('music')">
+        <button
+            class="primary next"
+            onclick="showScreen('music')"
+        >
             дальше →
         </button>
 
     </div>
+
 </section>
 
 
-<!-- ================= МУЗЫКА ================= -->
+<!-- ================================================= -->
+<!-- МУЗЫКА -->
+<!-- ================================================= -->
 
-<section class="screen" id="music">
+<section
+    class="screen"
+    id="music"
+>
+
     <div class="container">
 
-        <div class="page-number">04</div>
+        <div class="page-number">
+            04
+        </div>
 
-        <h2>Музыка</h2>
+        <h2>
+            Музыка
+        </h2>
 
         <p class="page-description">
             Иногда песня становится просто песней.
             А иногда начинает напоминать о человеке.
         </p>
 
+
         <div class="music-list">
 
+
             <div class="song">
+
                 <div class="song-title">
                     Хочу быть с ней и всё
                 </div>
+
                 <div class="song-artist">
                     Урал Гайсин
                 </div>
+
                 <div class="song-note">
                     Этот исполнитель стал ассоциироваться лишь с ним.
                 </div>
+
                 <div class="fake-player">
-                    <button class="play" onclick="musicNotice()">▶</button>
-                    <span>песня пока ждёт своего аудиофайла</span>
+
+                    <button
+                        class="play"
+                        onclick="musicNotice()"
+                    >
+                        ▶
+                    </button>
+
+                    <span>
+                        песня пока ждёт своего аудиофайла
+                    </span>
+
                 </div>
+
             </div>
 
 
             <div class="song">
+
                 <div class="song-title">
                     Моя мини принцесса
                 </div>
+
                 <div class="song-artist">
                     Урал Гайсин
                 </div>
+
                 <div class="song-note">
                     Он узнал, что у меня странные ассоциации
-                    со всем подряд. Эта напомнила мне атмосферу Нового года.
+                    со всем подряд. Эта напомнила мне атмосферу
+                    Нового года.
                 </div>
+
                 <div class="fake-player">
-                    <button class="play" onclick="musicNotice()">▶</button>
+
+                    <button
+                        class="play"
+                        onclick="musicNotice()"
+                    >
+                        ▶
+                    </button>
+
                     <span>♡</span>
+
                 </div>
+
             </div>
 
 
             <div class="song">
+
                 <div class="song-title">
                     Позвони
                 </div>
+
                 <div class="song-artist">
                     Оксана Почепа (Акула)
                 </div>
+
                 <div class="song-note">
                     Он сказал, что эта песня ассоциируется с ней.
                     После этого я слушала её каждый следующий день,
                     хотя раньше этот жанр мне совсем не нравился.
                 </div>
+
                 <div class="fake-player">
-                    <button class="play" onclick="musicNotice()">▶</button>
+
+                    <button
+                        class="play"
+                        onclick="musicNotice()"
+                    >
+                        ▶
+                    </button>
+
                     <span>♡</span>
+
                 </div>
+
             </div>
 
 
             <div class="song">
+
                 <div class="song-title">
                     Я подарю
                 </div>
+
                 <div class="song-artist">
                     Эндшпиль
                 </div>
+
                 <div class="song-note">
                     Он был в том настроении.
-                    Я так и не поняла почему, ведь разговаривали
-                    мы только вдвоём.
+                    Я так и не поняла почему,
+                    ведь разговаривали мы только вдвоём.
                 </div>
+
                 <div class="fake-player">
-                    <button class="play" onclick="musicNotice()">▶</button>
+
+                    <button
+                        class="play"
+                        onclick="musicNotice()"
+                    >
+                        ▶
+                    </button>
+
                     <span>♡</span>
+
                 </div>
+
             </div>
 
 
             <div class="song">
+
                 <div class="song-title">
                     Отказываю небу
                 </div>
+
                 <div class="song-artist">
                     pyrokinesis
                 </div>
+
                 <div class="song-note">
                     Эта песня свела нас ближе.
                 </div>
+
                 <div class="fake-player">
-                    <button class="play" onclick="musicNotice()">▶</button>
+
+                    <button
+                        class="play"
+                        onclick="musicNotice()"
+                    >
+                        ▶
+                    </button>
+
                     <span>♡</span>
+
                 </div>
+
             </div>
 
 
             <div class="song">
+
                 <div class="song-title">
                     Я тебя люблю
                 </div>
+
                 <div class="song-artist">
                     Урал Гайсин
                 </div>
+
                 <div class="song-note">
                     После этой песни я начала думать о нём
                     уже немного иначе.
                 </div>
+
                 <div class="fake-player">
-                    <button class="play" onclick="musicNotice()">▶</button>
+
+                    <button
+                        class="play"
+                        onclick="musicNotice()"
+                    >
+                        ▶
+                    </button>
+
                     <span>♡</span>
+
                 </div>
+
             </div>
 
 
             <div class="song">
+
                 <div class="song-title">
                     Дома
                 </div>
+
                 <div class="song-artist">
                     LUCAVEROS
                 </div>
+
                 <div class="song-note">
                     Она стала ассоциироваться с ним,
                     когда он стал ближе.
                 </div>
+
                 <div class="fake-player">
-                    <button class="play" onclick="musicNotice()">▶</button>
+
+                    <button
+                        class="play"
+                        onclick="musicNotice()"
+                    >
+                        ▶
+                    </button>
+
                     <span>♡</span>
+
                 </div>
+
             </div>
 
 
             <div class="song">
+
                 <div class="song-title">
                     Ты в моих мыслях навсегда
                 </div>
+
                 <div class="song-artist">
                     Урал Гайсин
                 </div>
+
                 <div class="song-note">
                     Ещё одна песня, которая теперь связана
                     с этим временем.
                 </div>
+
                 <div class="fake-player">
-                    <button class="play" onclick="musicNotice()">▶</button>
+
+                    <button
+                        class="play"
+                        onclick="musicNotice()"
+                    >
+                        ▶
+                    </button>
+
                     <span>♡</span>
+
                 </div>
+
             </div>
 
         </div>
 
-        <button class="primary next" onclick="showScreen('messages')">
+
+        <button
+            class="primary next"
+            onclick="showScreen('messages')"
+        >
             дальше →
         </button>
 
     </div>
+
 </section>
 
 
-<!-- ================= МЕЖДУ СООБЩЕНИЯМИ ================= -->
+<!-- ================================================= -->
+<!-- МЕЖДУ СООБЩЕНИЯМИ -->
+<!-- ================================================= -->
 
-<section class="screen" id="messages">
+<section
+    class="screen"
+    id="messages"
+>
+
     <div class="container">
 
-        <div class="page-number">05</div>
+        <div class="page-number">
+            05
+        </div>
 
-        <h2>Между сообщениями</h2>
+        <h2>
+            Между сообщениями
+        </h2>
 
         <p class="page-description">
             Иногда самое интересное находится не в самих словах,
             а где-то рядом с ними.
         </p>
 
+
         <div class="chat-list">
 
+
+            <!-- ДИАЛОГ 1 -->
 
             <div class="chat">
 
@@ -1055,6 +2138,8 @@ input:focus {
 
             </div>
 
+
+            <!-- ДИАЛОГ 2 -->
 
             <div class="chat">
 
@@ -1085,6 +2170,8 @@ input:focus {
             </div>
 
 
+            <!-- ДИАЛОГ 3 -->
+
             <div class="chat">
 
                 <div class="message him">
@@ -1111,6 +2198,8 @@ input:focus {
             </div>
 
 
+            <!-- ДИАЛОГ 4 -->
+
             <div class="chat">
 
                 <div class="message me">
@@ -1133,6 +2222,8 @@ input:focus {
 
             </div>
 
+
+            <!-- ДИАЛОГ 5 -->
 
             <div class="chat">
 
@@ -1178,22 +2269,43 @@ input:focus {
 
         </div>
 
-        <button class="primary next" onclick="showScreen('final')">
+
+        <button
+            class="primary next"
+            onclick="showScreen('final')"
+        >
             дальше →
         </button>
 
     </div>
+
 </section>
 
 
-<!-- ================= ФИНАЛ ================= -->
+<!-- ================================================= -->
+<!-- ФИНАЛ -->
+<!-- ================================================= -->
 
-<section class="screen center" id="final">
-    <div class="container" style="text-align:center">
+<section
+    class="screen center"
+    id="final"
+>
 
-        <div class="page-number">06</div>
+    <div
+        class="container"
+        style="text-align:center"
+    >
 
-        <h2>...</h2>
+        <div class="page-number">
+            06
+        </div>
+
+        <h2>
+            ...
+        </h2>
+
+
+        <!-- МАЛЕНЬКАЯ ЗВЕЗДА -->
 
         <div
             class="final-star"
@@ -1202,34 +2314,90 @@ input:focus {
             ✦
         </div>
 
-        <p id="starText" class="subtitle">
+
+        <p
+            id="starText"
+            class="subtitle"
+        >
             нажми на звезду
         </p>
 
-        <div id="cipherArea" style="display:none">
 
-            <p class="subtitle" style="margin-top:30px">
+        <!-- ШИФР -->
+
+        <div
+            id="cipherArea"
+            style="display:none"
+        >
+
+            <p
+                class="subtitle"
+                style="margin-top:30px"
+            >
                 Ты всё-таки заметил.
             </p>
+
 
             <div class="cipher">
 
                 <div class="numbers">
-                    8 15 / 2 9 19 15 7 14 15 / 4 9 / 20 5
+
+                    8 13 / 2 9 17 13 7 12 13 / 4 9 / 18 5
+
                     <br>
-                    9 15 / 19 15 14 15 / 20 21 1
+
+                    9 13 / 17 13 12 13 / 18 19 1
+
                     <br>
-                    7 9 15 18 14 15 / 5 / 14 15 20 20 5
+
+                    7 9 13 16 12 13 / 5 / 12 13 18 18 5
+
                     <br>
-                    19 15 7 14 15 / 19 15 12 15 / 4 9 / 20 5
+
+                    17 13 7 12 13 / 17 13 10 13 /
+                    4 9 / 18 5
+
                 </div>
 
             </div>
 
+
+            <!-- ПЕРВАЯ ПОДСКАЗКА -->
+
             <div class="hint">
-                <b>Алфавит.</b><br>
-                <b>Не русский.</b>
+
+                <div>
+                    💡 <b>Алфавит.</b>
+                </div>
+
+
+                <button
+                    class="hint-button"
+                    onclick="showItalianHint()"
+                >
+                    ещё одна подсказка
+                </button>
+
+
+                <!-- ВТОРАЯ ПОДСКАЗКА -->
+
+                <div
+                    id="italianHint"
+                    class="italian-hint"
+                >
+
+                    Не русский.<br>
+
+                    <span>
+                        Итальянский.
+                    </span>
+
+                </div>
+
             </div>
+
+
+            <!-- ОТВЕТ -->
 
             <input
                 id="cipherInput"
@@ -1238,37 +2406,85 @@ input:focus {
                 style="max-width:600px"
             >
 
+
             <br><br>
 
-            <button class="primary" onclick="checkCipher()">
+
+            <button
+                class="primary"
+                onclick="checkCipher()"
+            >
                 проверить
             </button>
 
-            <div class="error" id="cipherError"></div>
 
-            <div class="reveal" id="reveal">
+            <div
+                class="error"
+                id="cipherError"
+            ></div>
+
+
+            <!-- РАСКРЫТИЕ -->
+
+            <div
+                class="reveal"
+                id="reveal"
+            >
 
                 <div class="italian">
+
                     Ho bisogno di te.<br>
+
                     Io sono tua.<br>
+
                     Giorno e notte sogno solo di te.
+
                 </div>
+
 
                 <div class="translation">
-                    <b>О бизоньо ди тэ</b><br>
-                    Я в тебе нуждаюсь.<br><br>
 
-                    <b>Ио сонно туа</b><br>
-                    Я твоя.<br><br>
+                    <b>
+                        О бизоньо ди тэ
+                    </b>
 
-                    <b>Джёрно э ноттэ соньо соло ди тэ</b><br>
+                    <br>
+
+                    Я в тебе нуждаюсь.
+
+                    <br><br>
+
+
+                    <b>
+                        Ио сонно туа
+                    </b>
+
+                    <br>
+
+                    Я твоя.
+
+                    <br><br>
+
+
+                    <b>
+                        Джёрно э ноттэ соньо соло ди тэ
+                    </b>
+
+                    <br>
+
                     Днём и ночью мечтаю лишь о тебе.
+
                 </div>
+
 
                 <br>
 
+
                 <p style="color:var(--accent)">
-                    Теперь ты знаешь, что было между строк.
+
+                    Теперь ты знаешь,
+                    что было между строк.
+
                 </p>
 
             </div>
@@ -1276,12 +2492,18 @@ input:focus {
         </div>
 
     </div>
+
 </section>
 
 
-<!-- ================= МОДАЛЬНЫЕ ОКНА ================= -->
+<!-- ================================================= -->
+<!-- МОДАЛЬНОЕ ОКНО -->
+<!-- ================================================= -->
 
-<div class="modal" id="modal">
+<div
+    class="modal"
+    id="modal"
+>
 
     <div class="modal-box">
 
@@ -1289,9 +2511,15 @@ input:focus {
 
         <p id="modalText"></p>
 
-        <div id="modalChoices" class="choice"></div>
+        <div
+            id="modalChoices"
+            class="choice"
+        ></div>
 
-        <button onclick="closeModal()" style="margin-top:18px">
+        <button
+            onclick="closeModal()"
+            style="margin-top:18px"
+        >
             закрыть
         </button>
 
@@ -1302,35 +2530,55 @@ input:focus {
 
 <script>
 
-/* ---------- ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ ---------- */
+/* ================================================= */
+/* ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ */
+/* ================================================= */
 
 function showScreen(id) {
 
-    document.querySelectorAll('.screen')
-        .forEach(screen => screen.classList.remove('active'));
+    document
+        .querySelectorAll('.screen')
+        .forEach(screen => {
 
-    document.getElementById(id)
+            screen.classList.remove('active');
+
+        });
+
+
+    document
+        .getElementById(id)
         .classList.add('active');
 
+
     window.scrollTo({
+
         top: 0,
+
         behavior: 'smooth'
+
     });
+
 }
 
 
-/* ---------- ПАРОЛЬ ---------- */
+/* ================================================= */
+/* ПАРОЛЬ */
+/* ================================================= */
 
 function checkPassword() {
 
-    const input = document
-        .getElementById('passwordInput')
-        .value
-        .trim()
-        .toLowerCase();
+    const input =
+        document
+            .getElementById('passwordInput')
+            .value
+            .trim()
+            .toLowerCase();
 
-    const error = document
-        .getElementById('passwordError');
+
+    const error =
+        document
+            .getElementById('passwordError');
+
 
     if (input === 'аллерген') {
 
@@ -1344,105 +2592,291 @@ function checkPassword() {
             'Открой диалог в Telegram. 24.08.2026 · 13:35';
 
     }
+
 }
 
 
-/* ---------- МОДАЛКА ---------- */
+/* ================================================= */
+/* МОДАЛЬНОЕ ОКНО */
+/* ================================================= */
 
-function openModal(title, text, choices = []) {
+function openModal(
+    title,
+    text,
+    choices = []
+) {
 
-    document.getElementById('modalTitle')
+    document
+        .getElementById('modalTitle')
         .textContent = title;
 
-    document.getElementById('modalText')
+
+    document
+        .getElementById('modalText')
         .textContent = text;
 
+
     const container =
-        document.getElementById('modalChoices');
+        document
+            .getElementById('modalChoices');
+
 
     container.innerHTML = '';
 
+
     choices.forEach(choice => {
 
-        const button = document.createElement('button');
+        const button =
+            document.createElement('button');
 
-        button.textContent = choice.text;
+
+        button.textContent =
+            choice.text;
+
 
         button.onclick = () => {
 
             if (choice.action) {
+
                 choice.action();
+
             }
 
-            closeModal();
         };
+
 
         container.appendChild(button);
 
     });
 
-    document.getElementById('modal')
+
+    document
+        .getElementById('modal')
         .classList.add('show');
+
 }
 
 
 function closeModal() {
 
-    document.getElementById('modal')
+    document
+        .getElementById('modal')
         .classList.remove('show');
 
 }
 
 
-/* ---------- ЛУНА ---------- */
+/* ================================================= */
+/* ЛУНА */
+/* ================================================= */
 
 function openMoon() {
 
     openModal(
+
         'Луна',
+
         'Луна сегодня красивая, правда?)',
+
         [
+
             {
-                text: 'настолько красивая, что умереть можно.',
-                action: () => {}
+
+                text:
+                    'А) настолько красивая, что слов нет.',
+
+                action: () => {
+
+                    closeModal();
+
+                    startFireflies();
+
+                }
+
             },
+
+
             {
-                text: 'не знаю, не видел.',
-                action: () => {}
+
+                text:
+                    'Б) не знаю, не видел.',
+
+                action: () => {
+
+                    closeModal();
+
+                    darkEnding();
+
+                }
+
             }
+
         ]
+
     );
 
 }
 
 
-/* ---------- ТАБЛИЧКИ ---------- */
+/* ================================================= */
+/* СВЕТЛЯЧКИ */
+/* ================================================= */
+
+function startFireflies() {
+
+    const container =
+        document.createElement('div');
+
+
+    container.id =
+        'fireflies';
+
+
+    for (
+        let i = 0;
+        i < 28;
+        i++
+    ) {
+
+        const firefly =
+            document.createElement('div');
+
+
+        firefly.className =
+            'firefly';
+
+
+        firefly.style.left =
+            Math.random() * 100 + '%';
+
+
+        firefly.style.top =
+            (45 + Math.random() * 45) + '%';
+
+
+        firefly.style.animationDelay =
+            Math.random() * 4 + 's';
+
+
+        firefly.style.animationDuration =
+            (3 + Math.random() * 4) + 's';
+
+
+        container.appendChild(
+            firefly
+        );
+
+    }
+
+
+    document.body.appendChild(
+        container
+    );
+
+
+    setTimeout(() => {
+
+        container.remove();
+
+    }, 15000);
+
+}
+
+
+/* ================================================= */
+/* ТЁМНЫЙ ФИНАЛ ЛУНЫ */
+/* ================================================= */
+
+function darkEnding() {
+
+    const ending =
+        document.createElement('div');
+
+
+    ending.id =
+        'darkEnding';
+
+
+    ending.innerHTML = `
+
+        <div class="darkEndingContent">
+
+            <div class="darkEndingText">
+
+                тогда тебе нет смысла
+                дальше сидеть на этом сайте
+
+            </div>
+
+
+            <button
+                onclick="leaveSite()"
+            >
+
+                выйти полностью из сайта
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        ending
+    );
+
+}
+
+
+function leaveSite() {
+
+    window.location.href =
+        'about:blank';
+
+}
+
+
+/* ================================================= */
+/* ТАБЛИЧКИ */
+/* ================================================= */
 
 function openSign(number) {
 
     if (number === 1) {
 
         openModal(
+
             'Табличка',
+
             'этот мир создан пенсионером и ребенком.'
+
         );
 
     }
+
 
     if (number === 2) {
 
         openModal(
+
             'Табличка',
+
             'не забывай, Земля круглая.'
+
         );
 
     }
+
 
     if (number === 3) {
 
         openModal(
+
             'Табличка',
+
             'ты как погода перед грозой.\n\nпомню, ты это любишь, а я люблю….. в прочем, неважно, хотя важно'
+
         );
 
     }
@@ -1450,85 +2884,136 @@ function openSign(number) {
 }
 
 
-/* ---------- ФОНТАН ---------- */
+/* ================================================= */
+/* ФОНТАН */
+/* ================================================= */
 
 function openFountain() {
 
     openModal(
+
         'Фонтан',
+
         'Ты его много раз переделывал, а я так и не могла понять зачем ты так стараешься сделать его лучше, когда он и так был прекрасным. Но ты сделал его таким уютным и красивым. Все к чему ты прикасаешься или берешься обретает свою уникальную красоту)'
+
     );
 
 }
 
 
-/* ---------- МУЗЫКА ---------- */
+/* ================================================= */
+/* МУЗЫКА */
+/* ================================================= */
 
 function musicNotice() {
 
     openModal(
+
         'Пока тишина',
+
         'Здесь появится настоящая песня, когда мы добавим аудиофайл.'
+
     );
 
 }
 
 
-/* ---------- ФИНАЛ ---------- */
+/* ================================================= */
+/* ФИНАЛЬНАЯ ЗВЕЗДА */
+/* ================================================= */
 
 function revealFinal() {
 
-    document.getElementById('starText')
-        .textContent = 'Ты всё-таки заметил.';
+    document
+        .getElementById('starText')
+        .textContent =
+            'Ты всё-таки заметил.';
 
-    document.getElementById('cipherArea')
-        .style.display = 'block';
+
+    document
+        .getElementById('cipherArea')
+        .style.display =
+            'block';
 
 }
 
 
-/* ---------- ШИФР ---------- */
+/* ================================================= */
+/* ВТОРАЯ ПОДСКАЗКА */
+/* ================================================= */
 
-/*
-   Проверяем три возможных ответа.
-   Пользователь может ввести любой из трёх предложений.
-*/
+function showItalianHint() {
+
+    document
+        .getElementById('italianHint')
+        .classList.add('show');
+
+}
+
+
+/* ================================================= */
+/* НОРМАЛИЗАЦИЯ ОТВЕТА */
+/* ================================================= */
 
 function normalize(text) {
 
     return text
+
         .toLowerCase()
+
         .replace(/[.!?,]/g, '')
+
         .replace(/\s+/g, ' ')
+
         .trim();
 
 }
 
 
+/* ================================================= */
+/* ПРОВЕРКА ШИФРА */
+/* ================================================= */
+
 function checkCipher() {
 
-    const value = normalize(
-        document.getElementById('cipherInput').value
-    );
+    const value =
+        normalize(
+            document
+                .getElementById('cipherInput')
+                .value
+        );
+
 
     const answers = [
 
-        normalize('Ho bisogno di te'),
+        normalize(
+            'Ho bisogno di te.'
+        ),
 
-        normalize('Io sono tua'),
+        normalize(
+            'Io sono tua.'
+        ),
 
-        normalize('Giorno e notte sogno solo di te')
+        normalize(
+            'Giorno e notte sogno solo di te.'
+        )
 
     ];
 
+
     const error =
-        document.getElementById('cipherError');
+        document
+            .getElementById('cipherError');
+
 
     const reveal =
-        document.getElementById('reveal');
+        document
+            .getElementById('reveal');
 
 
-    if (answers.includes(value)) {
+    if (
+        answers.includes(value)
+    ) {
 
         error.textContent = '';
 
